@@ -1,16 +1,4 @@
-class WordPower:
-
-    sentence = ""
-    counter = 0
-    password = ""
-    def __init__(self, sentence, password):
-        self.sentence = sentence
-        self.password = password
-
-    def increment(self):
-        self.counter += 1
-
-
+import WordPower
 
 def encrypt(decrypted, password):
     dict = getAlphabetDict(password)
@@ -21,18 +9,14 @@ def encrypt(decrypted, password):
 def decipher(encrypted,words,filename):
     results = []
     for word in words:
-        temp = WordPower(decrypt(encrypted,word), word)
-
-        for w in words:
-            if w in temp.sentence:
-                temp.increment()
+        temp = WordPower.WordPowerObject(password=word, shift=None, sentence=decrypt(encrypted,word), words=words)
         if temp.counter > 1:
             results.append(temp)
         print("Sentence: " + temp.sentence + " Strength: " + str(temp.counter))
     results.sort(key=lambda x: x.counter, reverse=True)
     file1 = open(filename, "w")
     for word in results:
-        file1.write("Sentence: " + word.sentence + " Strength: " + str(word.counter) + " Password: " + word.password + "\n")
+        word.printToFile(file1,includePassword=True,includeShift=False)
     file1.close()
     return results
 

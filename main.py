@@ -1,5 +1,5 @@
 import MonoalphabeticPass
-import Ceaser
+import VignettCipher
 
 task1= "NENSBXIZIIWUXRSQKNXQFHRIFXIHNQCIVRQEFYSCEQFMIASUWEBCEIFYENEUSQBGNSXGSUQFRIICQUSQBXNSXMIAWFEGXNESFUGERSZRESBM"
 
@@ -22,11 +22,18 @@ task9 = "CELZCLRFXCLIPPRRYURFLTYVULEUEUWLETWDHWLBIXCUZYIYLLUTARXXLVCUXWEYTYXLUXX
 
 
 def getWords():
-    with open('english-words.txt') as f:
+    #with open('english-words.txt') as f:
+    with open('words_alpha.txt') as f:
         return f.read().split()
 
 if __name__ == '__main__':
 
-
-    MonoalphabeticPass.decipher(task2.lower(),getWords(),"task2.txt")
+    #print(VignettCipher.decrypt(dictionaries=VignettCipher.getDictionaries("lemon"), password="lemon",encrypted="lxfopvefrnhr"))
+    VignettCipher.decipher(task1.lower(),getWords(),"task1.txt")
+    VignettCipher.decipher(task3.lower(), getWords(), "task3.txt")
+    VignettCipher.decipher(task4.lower(), getWords(), "task4.txt")
+    VignettCipher.decipher(task5.lower(), getWords(), "task5.txt")
+    VignettCipher.decipher(task7.lower(), getWords(), "task7.txt")
+    VignettCipher.decipher(task8.lower(), getWords(), "task8.txt")
+    VignettCipher.decipher(task9.lower(), getWords(), "task9.txt")
 
