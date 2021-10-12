@@ -2,17 +2,24 @@ import MonoalphabeticPass
 import VignettCipher
 import NumberCipher
 import os
+import Ceaser
+import Task6Playground
+#Task1 is a monoalphabetic substitution cipher. The key is svybehknqpwzcfiojruxatgdml. I used the website http://practicalcryptography.com/ciphers/simple-substitution-cipher/ to decrypt the text. The text is hehadtolookstraightinfrontofhimobriencameinyouaskedmeoncehesaidwhatwasinroomisaidthatyouknewtheansweralready
 task1= "NENSBXIZIIWUXRSQKNXQFHRIFXIHNQCIVRQEFYSCEQFMIASUWEBCEIFYENEUSQBGNSXGSUQFRIICQUSQBXNSXMIAWFEGXNESFUGERSZRESBM"
 
 #Task2 is a monoalphabetic password cipher. The password was bowling. The deciphered text is heputitdownonthetablenearthedoortheworstthingintheworldsaidobrienisdifferentforeachpersonitmaybedeathbyfireorbywaterorfiftyotherdeathssometimesitissomethingquitesmallthatdoesnotevenkillyouhehadmovedtoonesideandwinstoncouldnowseewhatwasonthetable
-task2= "AIMTSCSLKVJKJSAISBOFIJIBQSAILKKQSAIVKQRSSACJGCJSAIVKQFLRBCLKOQCIJCRLCNNIQIJSNKQIBWAMIQRKJCSHBYOILIBSAOYNCQIKQOYVBSIQKQNCNSYKSAIQLIBSARRKHISCHIRCSCRRKHISACJGPTCSIRHBFFSABSLKIRJKSIUIJECFFYKTAIABLHKUILSKKJIRCLIBJLVCJRSKJWKTFLJKVRIIVABSVBRKJSAISBOFI "
+task2= "AIMTSCSLKVJKJSAISBOFIJIBQSAILKKQSAIVKQRSSACJGCJSAIVKQFLRBCLKOQCIJCRLCNNIQIJSNKQIBWAMIQRKJCSHBYOILIBSAOYNCQIKQOYVBSIQKQNCNSYKSAIQLIBSARRKHISCHIRCSCRRKHISACJGPTCSIRHBFFSABSLKIRJKSIUIJECFFYKTAIABLHKUILSKKJIRCLIBJLVCJRSKJWKTFLJKVRIIVABSVBRKJSAISBOFI"
 
-task3 = "WZZWGWNUAUNIRVASRRUHOMFBRVNYGAUQDVZPLPEHNUQVFBOBDNTEGBHRTLNIJISSOITISMLGVVDCIMRLSZOOLWUPAEFHBBHNTYQWPZENMVPSOZIRNNTEGLOLOLIEABMRTFPSCIIAACARRAAVDFNVVMNDUZQXYGIFNFFEYEALSVZSHOHGHVDEGPEPOEFMACEQLZWINBENCYQVTQVVNXMPRASBNVMXFUENTZZXUMPBOIBEEBSBFKTIGWWAADAXUMRPAEZSGTENVVTIEJAOYFGXFQDRBVOEHAEVNKQRZQNHTVEXUMRRWZXPBVLLBVNSAMSYEWF "
+#Task3 is a Vignere cipher. I used this website to decode it: https://www.boxentriq.com/code-breaking/vigenere-cipher. The password was armenian. The deciphered text is winston had been afraid before but suddenly he understood what the tube was for he felt very very sick you cant do that he screamed obrien what do you want me to do pain alone said obrien quietly is not always enough the rathe continued like a teacher giving a lesson eats meat in the poor parts of the town a mother cannot leave her baby outside because in ten minutes there will only be bones left
+task3 = "WZZWGWNUAUNIRVASRRUHOMFBRVNYGAUQDVZPLPEHNUQVFBOBDNTEGBHRTLNIJISSOITISMLGVVDCIMRLSZOOLWUPAEFHBBHNTYQWPZENMVPSOZIRNNTEGLOLOLIEABMRTFPSCIIAACARRAAVDFNVVMNDUZQXYGIFNFFEYEALSVZSHOHGHVDEGPEPOEFMACEQLZWINBENCYQVTQVVNXMPRASBNVMXFUENTZZXUMPBOIBEEBSBFKTIGWWAADAXUMRPAEZSGTENVVTIEJAOYFGXFQDRBVOEHAEVNKQRZQNHTVEXUMRRWZXPBVLLBVNSAMSYEWF"
 
+#Task4 is a Column Transposition Cipher. The Password is adceb and the website I used to solve it is https://www.boxentriq.com/code-breaking/columnar-transposition-cipher. The Decrypted text is sometimes they attack the eyes first sometimes they eat through the face into the tongue one end of the tube was put over his face he could see the first rat its face its teeth xxx.
 task4 = "SIHTHSTTTAOHETNNOTAOIEUEIAFTTTTTTESESERTCOOODEWTHCOEFRSIEXMEYCEIOMETGFNEUETBPEFEDHSICTXOMEAEFSIHTUEIHGEFUSVSHLTRTASHESAKYRMEYHHATTENHEURACSETTEEX"
 
-task5 = "JTUHLEICAHIEDSOTNNTUCTATRREEWEHCAATFYEOWUADSOATLOMHOESRTDEEMSPTTRYOIYTHWEARSFTAHCEELLOENAEVLEYOTNILMYEBOOFNFEISFNTOETEMNEHJOUULRISAMNUOSTIMCECHAEMHEEFARRODMOTBHREITEENLTEOSUCCRHETEHNESSNWOIWTBCUHTAWNIDNKSNTEOWNHWEAHSALDICSLTOESNEIDNTGHFEODRONOERWTSOOTFHTEHTEUWBAERNXOXTXOXPXEXNXEXDXIXTX "
+task5 = "JTUHLEICAHIEDSOTNNTUCTATRREEWEHCAATFYEOWUADSOATLOMHOESRTDEEMSPTTRYOIYTHWEARSFTAHCEELLOENAEVLEYOTNILMYEBOOFNFEISFNTOETEMNEHJOUULRISAMNUOSTIMCECHAEMHEEFARRODMOTBHREITEENLTEOSUCCRHETEHNESSNWOIWTBCUHTAWNIDNKSNTEOWNHWEAHSALDICSLTOESNEIDNTGHFEODRONOERWTSOOTFHTEHTEUWBAERNXOXTXOXPXEXNXEXDXIXTX"
 
+#Hypotheses 1: There exists a common denomenator for each of the 8bit numbers - Result: Negative, the highest common denominator amongst the numbers is 1
+#Hypotheses 2: Each 8-bit number converts to a number from 0-25 in mod 26, that can then be mapped to a monoalphabetic cipher - Result: It isn't a simple monoalphabetic password cipher, nor is it a monoalphabetic cypher with a shift
 task6 = "05158764 66149595 40886493 " \
         "24319962 68162102 68480515 " \
         "43690900 53185321 21006618 " \
@@ -60,7 +67,7 @@ task7 = "FIFVVRKKUNYKKKYFRIRRDVLKJYUVVEPLCXYEUJYUNIUSVLVLYUUYAZZVVYYVESJUEVYJYYR
 task8 = "RYYYNPQMYOOKRKSKDRWKCODNBXOXYXOXCXDXXXXXYXCXIXSXBVDOKSXBBRDDBPDCNSGSFGIBEVXXXRXKXSXSXSXBXVXYXOXPOXFPLKLIDCBEOXBXDOOCKBOBIUXXHXGXCXDXQXKXVXBXMXXX"
 
 task9 = "CELZCLRFXCLIPPRRYURFLTYVULEUEUWLETWDHWLBIXCUZYIYLLUTARXXLVCUXWEYTYXLUXXWRZORIZGUUYUXELCDZEXLRFTWIXFELXXMYXYRVHRXLNWICPHWXUTRBXZELRLIUUBLPULXLRWTKXCERNEVEXOWXYRWRVFROTTX"
-
+alphabeticTasks = [task1,task2,task3,task4,task5,task7,task8,task9]
 
 def getWords(filepath):
     #with open('english-words.txt') as f:
@@ -72,24 +79,22 @@ def getWordsDefualt():
         return f.read().split()
 
 if __name__ == '__main__':
-        test = "DAZFI SFSPA VQLSN PXYSZ WXALC DAFGQ UISMT PHZGA MKTTF TCCFX KFCRG GLPFE TZMMM ZOZDE ADWVZ WMWKV GQSOH QSVHP WFKLS LEASE PWHMJ EGKPU RVSXJ XVBWV POSDE TEQTX OBZIK WCXLW NUOVJ MJCLL OEOFA ZENVM JILOW ZEKAZ EJAQD ILSWW ESGUG KTZGQ ZVRMN WTQSE OTKTK PBSTA MQVER MJEGL JQRTL GFJYG SPTZP GTACM OECBX SESCI YGUFP KVILL TWDKS ZODFW FWEAA PQTFS TQIRG MPMEL RYELH QSVWB AWMOS DELHM UZGPG YEKZU KWTAM ZJMLS EVJQT GLAWV OVVXH KWQIL IEUYS ZWXAH HUSZO GMUZQ CIMVZ UVWIF JJHPW VXFSE TZEDF"
-        test = test.replace(" ","")
-        result = VignettCipher.decipher(test.lower(),getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"), )
+        numbers = Task6Playground.base26(task6)
+        analysis = Task6Playground.analyzeFrequencies(numbers)
+        sentence = Task6Playground.convertToAlphabet(numbers)
+        Ceaser.decipher(sentence,getWordsDefualt(),"task6.txt")
+        print(sentence)
+        #result = []
+        #filename = "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\test.txt"
+        #for task in alphabeticTasks:
+        #        result.extend(VignettCipher.decipher(task.lower(), getWords(
+        #                "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),
+        #                                      filename=filename))
+        #result.sort(key=lambda x: x.counter, reverse=True)
+        #file1 = open(filename, "w")
+        #for sentece in result:
+        #        sentece.printToFile(file1, includePassword=True, includeShift=True)
+        #file1.close()
 
-        #VignettCipher.decipher(task1.lower(),getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"), "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\ShorterTask1.txt")
-        #VignettCipher.decipher(task3.lower(), getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"), "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\ShorterTask3.txt")
-        #VignettCipher.decipher(task4.lower(), getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"), "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\ShorterTask4.txt")
-        #VignettCipher.decipher(task5.lower(), getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"), "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\ShorterTask5.txt")
-        #VignettCipher.decipher(task7.lower(), getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"), "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\ShorterTask7.txt")
-        #VignettCipher.decipher(task8.lower(), getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"), "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\ShorterTask8.txt")
-        #VignettCipher.decipher(task9.lower(), getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"), "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\ShorterTask9.txt")
-    #NumberCipher.decipher(task6,getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),"C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task6.txt")
-    #print(VignettCipher.decrypt(dictionaries=VignettCipher.getDictionaries("lemon"), password="lemon",encrypted="lxfopvefrnhr"))
-    #VignettCipher.decipher(task1.lower(), getWordsDefualt(), "task1.txt")
-    #VignettCipher.decipher(task3.lower(), getWordsDefualt(), "task3.txt")
-    #VignettCipher.decipher(task4.lower(), getWordsDefualt(), "task4.txt")
-    #VignettCipher.decipher(task5.lower(), getWordsDefualt(), "task5.txt")
-    #VignettCipher.decipher(task7.lower(), getWordsDefualt(), "task7.txt")
-    #VignettCipher.decipher(task8.lower(), getWordsDefualt(), "task8.txt")
-    #VignettCipher.decipher(task9.lower(), getWordsDefualt(), "task9.txt")
+
 

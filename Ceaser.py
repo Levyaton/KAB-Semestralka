@@ -12,6 +12,7 @@ def decipher(encrypted, words,filename):
     for sentece in res:
         sentece.printToFile(file1,includePassword=False,includeShift=True)
     file1.close()
+    return res
 
 
 def decrypt(encrypted, dictionary):

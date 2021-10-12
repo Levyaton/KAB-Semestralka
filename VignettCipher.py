@@ -59,8 +59,8 @@ def decrypt(dictionaries, encrypted, password):
     passLen = len(password)
     for x in range(0, len(encrypted), 1):
         encryptedLetter = encrypted[x]
-        passwordRow = dictionaries[x%passLen]["a"]
-        decryptedLetter =  dictionaries[x%passLen][encryptedLetter]
+        passwordRow =  dictionaries[x%passLen]
+        decryptedLetter =  passwordRow[encryptedLetter]
         decrypted+= decryptedLetter
 
     return decrypted
