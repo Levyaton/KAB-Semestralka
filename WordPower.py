@@ -10,8 +10,9 @@ class WordPowerObject:
         self.shift = shift
         self.password = password
         for word in words:
-            if word in self.sentence:
-                self.counter += 1
+            if len(word) >= 3:
+                if word in self.sentence:
+                    self.counter += 1
 
 
     def printToFile(self, file, includePassword, includeShift):

@@ -4,18 +4,21 @@ import NumberCipher
 import os
 import Ceaser
 import Task6Playground
-#Task1 is a monoalphabetic substitution cipher. The key is svybehknqpwzcfiojruxatgdml. I used the website http://practicalcryptography.com/ciphers/simple-substitution-cipher/ to decrypt the text. The text is hehadtolookstraightinfrontofhimobriencameinyouaskedmeoncehesaidwhatwasinroomisaidthatyouknewtheansweralready
+import SimpleSubstitutionCipher
+import ColumnTransposition
+#Task1 is an Affine Cipher cipher. The key is svybehknqpwzcfiojruxatgdml, where the A coefficient is 3 and the B coefficient is 18. I used the website https://www.guballa.de/substitution-solver to decrypt the text. The text is hehadtolookstraightinfrontofhimobriencameinyouaskedmeoncehesaidwhatwasinroomisaidthatyouknewtheansweralready
 task1= "NENSBXIZIIWUXRSQKNXQFHRIFXIHNQCIVRQEFYSCEQFMIASUWEBCEIFYENEUSQBGNSXGSUQFRIICQUSQBXNSXMIAWFEGXNESFUGERSZRESBM"
 
 #Task2 is a monoalphabetic password cipher. The password was bowling. The deciphered text is heputitdownonthetablenearthedoortheworstthingintheworldsaidobrienisdifferentforeachpersonitmaybedeathbyfireorbywaterorfiftyotherdeathssometimesitissomethingquitesmallthatdoesnotevenkillyouhehadmovedtoonesideandwinstoncouldnowseewhatwasonthetable
 task2= "AIMTSCSLKVJKJSAISBOFIJIBQSAILKKQSAIVKQRSSACJGCJSAIVKQFLRBCLKOQCIJCRLCNNIQIJSNKQIBWAMIQRKJCSHBYOILIBSAOYNCQIKQOYVBSIQKQNCNSYKSAIQLIBSARRKHISCHIRCSCRRKHISACJGPTCSIRHBFFSABSLKIRJKSIUIJECFFYKTAIABLHKUILSKKJIRCLIBJLVCJRSKJWKTFLJKVRIIVABSVBRKJSAISBOFI"
 
-#Task3 is a Vignere cipher. I used this website to decode it: https://www.boxentriq.com/code-breaking/vigenere-cipher. The password was armenian. The deciphered text is winston had been afraid before but suddenly he understood what the tube was for he felt very very sick you cant do that he screamed obrien what do you want me to do pain alone said obrien quietly is not always enough the rathe continued like a teacher giving a lesson eats meat in the poor parts of the town a mother cannot leave her baby outside because in ten minutes there will only be bones left
+#Task3 is a Vignere cipher. I used the Class VignettCipher to decode it. The password was armenian. The deciphered text is: winstonhadbeenafraidbeforebutsuddenlyheunderstoodwhatthetubewasforhefeltveryverysickyoucantdothathescreamedobrienwhatdoyouwantmetodopainalonesaidobrienquietlyisnotalwaysenoughtherathecontinuedlikeateachergivingalessoneatsmeatinthepoorpartsofthetownamothercannotleaveherbabyoutsidebecauseintenminutestherewillonlybebonesleft
 task3 = "WZZWGWNUAUNIRVASRRUHOMFBRVNYGAUQDVZPLPEHNUQVFBOBDNTEGBHRTLNIJISSOITISMLGVVDCIMRLSZOOLWUPAEFHBBHNTYQWPZENMVPSOZIRNNTEGLOLOLIEABMRTFPSCIIAACARRAAVDFNVVMNDUZQXYGIFNFFEYEALSVZSHOHGHVDEGPEPOEFMACEQLZWINBENCYQVTQVVNXMPRASBNVMXFUENTZZXUMPBOIBEEBSBFKTIGWWAADAXUMRPAEZSGTENVVTIEJAOYFGXFQDRBVOEHAEVNKQRZQNHTVEXUMRRWZXPBVLLBVNSAMSYEWF"
 
-#Task4 is a Column Transposition Cipher. The Password is adceb and the website I used to solve it is https://www.boxentriq.com/code-breaking/columnar-transposition-cipher. The Decrypted text is sometimes they attack the eyes first sometimes they eat through the face into the tongue one end of the tube was put over his face he could see the first rat its face its teeth xxx.
+#Task4 is a Column Transposition Cipher. The column order is 0,3,2,4,1 and the size is 5x29. I used the class ColumnTransposition with the method decipherPassword to decipher the code. The Decrypted text is sometimes they attack the eyes first sometimes they eat through the face into the tongue one end of the tube was put over his face he could see the first rat its face its teeth xxx.
 task4 = "SIHTHSTTTAOHETNNOTAOIEUEIAFTTTTTTESESERTCOOODEWTHCOEFRSIEXMEYCEIOMETGFNEUETBPEFEDHSICTXOMEAEFSIHTUEIHGEFUSVSHLTRTASHESAKYRMEYHHATTENHEURACSETTEEX"
 
+#Task5 is a Table Cipher with a size of 2x143. I used the class ColumnTransposition with the method decipher to decrypt it. The deciphered text is: juliaidontcarewhatyoudotoherdestroyherfaceleaveonlybonesnotmejulianotmeheheardobrientouchtheswitchandknewhehadclosedthedoortothetubenotopeneditthechestnuttreecafewasalmostemptyitwasthelonelytimeoffifteenhoursmusiccamefromthetelescreensnowbutwinstonwaslisteningfornewsofthewarxxxxxxxxxxx
 task5 = "JTUHLEICAHIEDSOTNNTUCTATRREEWEHCAATFYEOWUADSOATLOMHOESRTDEEMSPTTRYOIYTHWEARSFTAHCEELLOENAEVLEYOTNILMYEBOOFNFEISFNTOETEMNEHJOUULRISAMNUOSTIMCECHAEMHEEFARRODMOTBHREITEENLTEOSUCCRHETEHNESSNWOIWTBCUHTAWNIDNKSNTEOWNHWEAHSALDICSLTOESNEIDNTGHFEODRONOERWTSOOTFHTEHTEUWBAERNXOXTXOXPXEXNXEXDXIXTX"
 
 #Hypotheses 1: There exists a common denomenator for each of the 8bit numbers - Result: Negative, the highest common denominator amongst the numbers is 1
@@ -79,11 +82,36 @@ def getWordsDefualt():
         return f.read().split()
 
 if __name__ == '__main__':
-        numbers = Task6Playground.base26(task6)
-        analysis = Task6Playground.analyzeFrequencies(numbers)
-        sentence = Task6Playground.convertToAlphabet(numbers)
-        Ceaser.decipher(sentence,getWordsDefualt(),"task6.txt")
-        print(sentence)
+
+        result = []
+        #result.extend(ColumnTransposition.decipherPassword(encrypted=task4.lower(), words=getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),filename="C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task5.txt"))
+        result.extend(ColumnTransposition.decipher(encrypted=task5.lower(),words=getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"), filename="C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task5.txt"))
+        print("finished Task 5")
+        #result.extend(ColumnTransposition.decipherPassword(encrypted=task7.lower(), words=getWords(
+        #        "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),
+        #                             filename="C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task7.txt"))
+        #print("finished Task 7")
+        #result.extend(ColumnTransposition.decipherPassword(encrypted=task8.lower(), words=getWords(
+        #        "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),
+        #                             filename="C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task8.txt"))
+        #print("finished Task 8")
+        #result.extend(ColumnTransposition.decipherPassword(encrypted=task9.lower(), words=getWords(
+        #       "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),
+        #                           filename="C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task9.txt"))
+        #print("finished Task 9")
+        result.sort(key=lambda x: x.counter, reverse=True)
+        file1 = open("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\result.txt", "w")
+        for word in result:
+                word.printToFile(file1, includePassword=True, includeShift=False)
+        file1.close()
+
+        #SimpleSubstitutionCipher.decipher(words=getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"), encrypted=task1.lower())
+        #numbers = Task6Playground.base26(task6)
+        #analysis = Task6Playground.analyzeFrequencies(numbers)
+        ##sentence = Task6Playground.convertToAlphabet(numbers)
+        #MonoalphabeticPass.decipher(sentence,getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),"C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task6.txt")
+        #print('-------------------------------------')
+        #print(sentence)
         #result = []
         #filename = "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\test.txt"
         #for task in alphabeticTasks:
