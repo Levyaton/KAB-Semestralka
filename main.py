@@ -4,25 +4,26 @@ import NumberCipher
 import os
 import Ceaser
 import Task6Playground
-import SimpleSubstitutionCipher
+import SubstitutionCipher
+import AffineCipher
 import ColumnTransposition
-#Task1 is an Affine Cipher cipher. The key is svybehknqpwzcfiojruxatgdml, where the A coefficient is 3 and the B coefficient is 18. I used the website https://www.guballa.de/substitution-solver to decrypt the text. The text is hehadtolookstraightinfrontofhimobriencameinyouaskedmeoncehesaidwhatwasinroomisaidthatyouknewtheansweralready
-task1= "NENSBXIZIIWUXRSQKNXQFHRIFXIHNQCIVRQEFYSCEQFMIASUWEBCEIFYENEUSQBGNSXGSUQFRIICQUSQBXNSXMIAWFEGXNESFUGERSZRESBM"
+# Task1 is an Affine Cipher cipher. The Keys are A = 3, B = 18 and the code is svybehknqpwzcfiojruxatgdml, where the A coefficient is 3 and the B coefficient is 18. I used the class AffineCipher with the method decipher to decrypt the text (the code is based on the one found at the following website, but slightly modefied: https://replit.com/@mx-raza/Brute-force-Affine-cypher. The text is hehadtolookstraightinfrontofhimobriencameinyouaskedmeoncehesaidwhatwasinroomisaidthatyouknewtheansweralready
+task1 = "NENSBXIZIIWUXRSQKNXQFHRIFXIHNQCIVRQEFYSCEQFMIASUWEBCEIFYENEUSQBGNSXGSUQFRIICQUSQBXNSXMIAWFEGXNESFUGERSZRESBM"
 
-#Task2 is a monoalphabetic password cipher. The password was bowling. The deciphered text is heputitdownonthetablenearthedoortheworstthingintheworldsaidobrienisdifferentforeachpersonitmaybedeathbyfireorbywaterorfiftyotherdeathssometimesitissomethingquitesmallthatdoesnotevenkillyouhehadmovedtoonesideandwinstoncouldnowseewhatwasonthetable
-task2= "AIMTSCSLKVJKJSAISBOFIJIBQSAILKKQSAIVKQRSSACJGCJSAIVKQFLRBCLKOQCIJCRLCNNIQIJSNKQIBWAMIQRKJCSHBYOILIBSAOYNCQIKQOYVBSIQKQNCNSYKSAIQLIBSARRKHISCHIRCSCRRKHISACJGPTCSIRHBFFSABSLKIRJKSIUIJECFFYKTAIABLHKUILSKKJIRCLIBJLVCJRSKJWKTFLJKVRIIVABSVBRKJSAISBOFI"
+# Task2 is a monoalphabetic password cipher. The password was bowling. The deciphered text is heputitdownonthetablenearthedoortheworstthingintheworldsaidobrienisdifferentforeachpersonitmaybedeathbyfireorbywaterorfiftyotherdeathssometimesitissomethingquitesmallthatdoesnotevenkillyouhehadmovedtoonesideandwinstoncouldnowseewhatwasonthetable
+task2 = "AIMTSCSLKVJKJSAISBOFIJIBQSAILKKQSAIVKQRSSACJGCJSAIVKQFLRBCLKOQCIJCRLCNNIQIJSNKQIBWAMIQRKJCSHBYOILIBSAOYNCQIKQOYVBSIQKQNCNSYKSAIQLIBSARRKHISCHIRCSCRRKHISACJGPTCSIRHBFFSABSLKIRJKSIUIJECFFYKTAIABLHKUILSKKJIRCLIBJLVCJRSKJWKTFLJKVRIIVABSVBRKJSAISBOFI"
 
-#Task3 is a Vignere cipher. I used the Class VignettCipher to decode it. The password was armenian. The deciphered text is: winstonhadbeenafraidbeforebutsuddenlyheunderstoodwhatthetubewasforhefeltveryverysickyoucantdothathescreamedobrienwhatdoyouwantmetodopainalonesaidobrienquietlyisnotalwaysenoughtherathecontinuedlikeateachergivingalessoneatsmeatinthepoorpartsofthetownamothercannotleaveherbabyoutsidebecauseintenminutestherewillonlybebonesleft
+# Task3 is a Vignere cipher. I used this website to decode it: https://www.boxentriq.com/code-breaking/vigenere-cipher. The password was armenian. The deciphered text is winston had been afraid before but suddenly he understood what the tube was for he felt very very sick you cant do that he screamed obrien what do you want me to do pain alone said obrien quietly is not always enough the rathe continued like a teacher giving a lesson eats meat in the poor parts of the town a mother cannot leave her baby outside because in ten minutes there will only be bones left
 task3 = "WZZWGWNUAUNIRVASRRUHOMFBRVNYGAUQDVZPLPEHNUQVFBOBDNTEGBHRTLNIJISSOITISMLGVVDCIMRLSZOOLWUPAEFHBBHNTYQWPZENMVPSOZIRNNTEGLOLOLIEABMRTFPSCIIAACARRAAVDFNVVMNDUZQXYGIFNFFEYEALSVZSHOHGHVDEGPEPOEFMACEQLZWINBENCYQVTQVVNXMPRASBNVMXFUENTZZXUMPBOIBEEBSBFKTIGWWAADAXUMRPAEZSGTENVVTIEJAOYFGXFQDRBVOEHAEVNKQRZQNHTVEXUMRRWZXPBVLLBVNSAMSYEWF"
 
-#Task4 is a Column Transposition Cipher. The column order is 0,3,2,4,1 and the size is 5x29. I used the class ColumnTransposition with the method decipherPassword to decipher the code. The Decrypted text is sometimes they attack the eyes first sometimes they eat through the face into the tongue one end of the tube was put over his face he could see the first rat its face its teeth xxx.
+# Task4 is a Column Transposition Cipher. The Password is adceb and the website I used to solve it is https://www.boxentriq.com/code-breaking/columnar-transposition-cipher. The Decrypted text is sometimes they attack the eyes first sometimes they eat through the face into the tongue one end of the tube was put over his face he could see the first rat its face its teeth xxx.
 task4 = "SIHTHSTTTAOHETNNOTAOIEUEIAFTTTTTTESESERTCOOODEWTHCOEFRSIEXMEYCEIOMETGFNEUETBPEFEDHSICTXOMEAEFSIHTUEIHGEFUSVSHLTRTASHESAKYRMEYHHATTENHEURACSETTEEX"
 
 #Task5 is a Table Cipher with a size of 2x143. I used the class ColumnTransposition with the method decipher to decrypt it. The deciphered text is: juliaidontcarewhatyoudotoherdestroyherfaceleaveonlybonesnotmejulianotmeheheardobrientouchtheswitchandknewhehadclosedthedoortothetubenotopeneditthechestnuttreecafewasalmostemptyitwasthelonelytimeoffifteenhoursmusiccamefromthetelescreensnowbutwinstonwaslisteningfornewsofthewarxxxxxxxxxxx
 task5 = "JTUHLEICAHIEDSOTNNTUCTATRREEWEHCAATFYEOWUADSOATLOMHOESRTDEEMSPTTRYOIYTHWEARSFTAHCEELLOENAEVLEYOTNILMYEBOOFNFEISFNTOETEMNEHJOUULRISAMNUOSTIMCECHAEMHEEFARRODMOTBHREITEENLTEOSUCCRHETEHNESSNWOIWTBCUHTAWNIDNKSNTEOWNHWEAHSALDICSLTOESNEIDNTGHFEODRONOERWTSOOTFHTEHTEUWBAERNXOXTXOXPXEXNXEXDXIXTX"
 
-#Hypotheses 1: There exists a common denomenator for each of the 8bit numbers - Result: Negative, the highest common denominator amongst the numbers is 1
-#Hypotheses 2: Each 8-bit number converts to a number from 0-25 in mod 26, that can then be mapped to a monoalphabetic cipher - Result: It isn't a simple monoalphabetic password cipher, nor is it a monoalphabetic cypher with a shift
+# Hypotheses 1: There exists a common denomenator for each of the 8bit numbers - Result: Negative, the highest common denominator amongst the numbers is 1
+# Hypotheses 2: Each 8-bit number converts to a number from 0-25 in mod 26, that can then be mapped to a monoalphabetic cipher - Result: It isn't a simple monoalphabetic password cipher, nor is it a monoalphabetic cypher with a shift
 task6 = "05158764 66149595 40886493 " \
         "24319962 68162102 68480515 " \
         "43690900 53185321 21006618 " \
@@ -67,51 +68,118 @@ task6 = "05158764 66149595 40886493 " \
 
 task7 = "FIFVVRKKUNYKKKYFRIRRDVLKJYUVVEPLCXYEUJYUNIUSVLVLYUUYAZZVVYYVESJUEVYJYYRYVKKTKWIVKERRZRRFVPCFVRURRKVVUVELYPRPYVYZFZUKEKWN"
 
+#Task 8 is a ceaser shift cipher, enciphered in a double column transposition cipher. I used the method decryptDoubleNoPassword from the file ColumnTransposition.py, to get my first list, then ran the decripher method from the file Ceaser.py on each element, and stored the results. The deciphered messege is: helovedbigbrotherthefirsttimeisawterrylennoxhewassittinginarollsroyceinfrontofafancyrestaurantandhewasverydrunknnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn. Table 1 has dimentions 48 x 3.0 and Table 2 has dimentions 2 x 72.0. The Ceaser shift is 10
 task8 = "RYYYNPQMYOOKRKSKDRWKCODNBXOXYXOXCXDXXXXXYXCXIXSXBVDOKSXBBRDDBPDCNSGSFGIBEVXXXRXKXSXSXSXBXVXYXOXPOXFPLKLIDCBEOXBXDOOCKBOBIUXXHXGXCXDXQXKXVXBXMXXX"
 
 task9 = "CELZCLRFXCLIPPRRYURFLTYVULEUEUWLETWDHWLBIXCUZYIYLLUTARXXLVCUXWEYTYXLUXXWRZORIZGUUYUXELCDZEXLRFTWIXFELXXMYXYRVHRXLNWICPHWXUTRBXZELRLIUUBLPULXLRWTKXCERNEVEXOWXYRWRVFROTTX"
-alphabeticTasks = [task1,task2,task3,task4,task5,task7,task8,task9]
+alphabeticTasks = [task1, task2, task3, task4, task5, task7, task8, task9]
+
 
 def getWords(filepath):
-    #with open('english-words.txt') as f:
+    # with open('english-words.txt') as f:
     with open(filepath) as f:
         return f.read().split()
+
+
 def getWordsDefualt():
-    #with open('english-words.txt') as f:
+    # with open('english-words.txt') as f:
     with open('english-words.txt') as f:
         return f.read().split()
 
-if __name__ == '__main__':
+def ceaserDoubleTransposition(task, filename, words):
 
+        transpositions = ColumnTransposition.decryptDoubleNoPassword(task, words=words)
         result = []
-        #result.extend(ColumnTransposition.decipherPassword(encrypted=task4.lower(), words=getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),filename="C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task5.txt"))
-        result.extend(ColumnTransposition.decipher(encrypted=task5.lower(),words=getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"), filename="C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task5.txt"))
-        print("finished Task 5")
-        #result.extend(ColumnTransposition.decipherPassword(encrypted=task7.lower(), words=getWords(
-        #        "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),
-        #                             filename="C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task7.txt"))
-        #print("finished Task 7")
-        #result.extend(ColumnTransposition.decipherPassword(encrypted=task8.lower(), words=getWords(
-        #        "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),
-        #                             filename="C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task8.txt"))
-        #print("finished Task 8")
-        #result.extend(ColumnTransposition.decipherPassword(encrypted=task9.lower(), words=getWords(
-        #       "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),
-        #                           filename="C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task9.txt"))
-        #print("finished Task 9")
+        for transposition in transpositions:
+                temp = Ceaser.decipher(transposition.sentence, words, filename)
+                for ceaser in temp:
+                        print(ceaser.sentence)
+                        ceaser.password = transposition.password
+                result.extend(temp)
+
         result.sort(key=lambda x: x.counter, reverse=True)
-        file1 = open("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\result.txt", "w")
-        for word in result:
-                word.printToFile(file1, includePassword=True, includeShift=False)
+        file1 = open(filename, "w")
+        for sentece in result:
+                sentece.printToFile(file1, includePassword=True, includeShift=True)
         file1.close()
 
-        #SimpleSubstitutionCipher.decipher(words=getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"), encrypted=task1.lower())
-        #numbers = Task6Playground.base26(task6)
-        #analysis = Task6Playground.analyzeFrequencies(numbers)
-        ##sentence = Task6Playground.convertToAlphabet(numbers)
-        #MonoalphabeticPass.decipher(sentence,getWords("C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),"C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\task6.txt")
-        #print('-------------------------------------')
-        #print(sentence)
+def passwordTranspositionSubstitutionCipher(filename, words, task):
+        transpositions = ColumnTransposition.decipherPassword(task, words, filename)
+        result = []
+        for transposition in transpositions:
+                temp = SubstitutionCipher.decript(transposition.sentence, quadrams="C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\english_quadgrams.txt",words=words)
+                temp.password = "Cipher Key: " + temp.password + " Table Properties: " + transposition.password
+                result.append(temp)
+        passwords = MonoalphabeticPass.decipher(task, words, filename)
+        for password in passwords:
+                temp = ColumnTransposition.decipherPassword(password.sentence, words, filename)
+                for element in temp:
+                        element.password = "Cipher Key: " + password.password + " Table Properties: " + element.password
+                result.extend(temp)
+        result.sort(key=lambda x: x.counter, reverse=True)
+
+        file1 = open(filename, "w")
+        for sentece in result:
+                sentece.printToFile(file1, includePassword=True, includeShift=True)
+        file1.close()
+
+def passwordSubstitutionTableCipher(filename,words,task):
+        result = []
+        passwords = MonoalphabeticPass.decipher(task,words,filename)
+        for password in passwords:
+                tables = ColumnTransposition.decipher(password.sentence,words,filename)
+                for table in tables:
+                        table.password += "Password: " + password.password
+                result.extend(tables)
+        result.sort(key=lambda x: x.counter, reverse=True)
+
+        file1 = open(filename, "w")
+        for sentece in result:
+                sentece.printToFile(file1, includePassword=True, includeShift=True)
+        file1.close()
+def affinWithPasswordTransposition(filename, words, task):
+        result = []
+        affines = AffineCipher.decipher(encrypted=task, words=words)
+        counter = 0
+        for affine in affines:
+                counter += 1
+                print("Part 1: " + str(counter)+"/"+str(len(affines)))
+                columns = ColumnTransposition.decipherPassword(affine.sentence,words,filename)
+                for column in columns:
+                        column.password += affine.password
+                result.extend(columns)
+                result.sort(key=lambda x: x.counter, reverse=True)
+                print("Best guess: " + result[0].sentence)
+        columns = ColumnTransposition.decipherPassword(task,words,filename)
+        counter = 0
+        for column in columns:
+                counter += 1
+                print("Part 1: " + str(counter) + "/" + str(len(columns)))
+                affines = AffineCipher.decipher(encrypted=column.sentence,words=words)
+                for affine in affines:
+                        affine.password += column.password
+                result.extend(affines)
+                result.sort(key=lambda x: x.counter, reverse=True)
+                print("Best guess: " + result[0].sentence)
+        result.sort(key=lambda x: x.counter, reverse=True)
+
+        file1 = open(filename, "w")
+        for sentece in result:
+                sentece.printToFile(file1, includePassword=True, includeShift=True)
+        file1.close()
+
+if __name__ == '__main__':
+        filename = "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\task9.txt"
+        words = getWords(
+                "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\english-words.txt")
+        task = task9.lower()
+
+        affinWithPasswordTransposition(filename,words,task)
+
+
+        filename = "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\task7.txt"
+        task = task7.lower()
+        affinWithPasswordTransposition(filename, words, task)
         #result = []
         #filename = "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\test.txt"
         #for task in alphabeticTasks:
@@ -120,7 +188,7 @@ if __name__ == '__main__':
         #                                      filename=filename))
         #result.sort(key=lambda x: x.counter, reverse=True)
         #file1 = open(filename, "w")
-        #for sentece in result:
+        #for sentece in results:
         #        sentece.printToFile(file1, includePassword=True, includeShift=True)
         #file1.close()
 

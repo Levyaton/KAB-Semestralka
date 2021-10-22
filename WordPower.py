@@ -1,16 +1,14 @@
 class WordPowerObject:
 
-    sentence = ""
-    counter = 0
-    shift = None
-    password = ""
+
 
     def __init__(self, sentence, shift, password, words):
         self.sentence = sentence
         self.shift = shift
+        self.counter = 0
         self.password = password
         for word in words:
-            if len(word) >= 3:
+            if len(word) >= 2:
                 if word in self.sentence:
                     self.counter += 1
 

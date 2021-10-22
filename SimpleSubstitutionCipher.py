@@ -12,7 +12,7 @@ def decipher(encrypted, words):
     bestGuess = WordPower.WordPowerObject(sentence=decrypt(buildDictionary(alphabet,temp),temp),words=words,password=temp,shift=None)
     currentKey = alphabet
     attempt = 0
-    while True:
+    while attempt < 45:
         attempt+=1
         count = 0
         bestGuessCpy = list(bestGuess.password)
