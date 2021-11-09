@@ -3,23 +3,25 @@ import VignettCipher
 import NumberCipher
 import os
 import Ceaser
+import RSA
 import Task6Playground
 import SubstitutionCipher
 import AffineCipher
 import ColumnTransposition
+
 # Task1 is an Affine Cipher cipher. The Keys are A = 3, B = 18 and the code is svybehknqpwzcfiojruxatgdml, where the A coefficient is 3 and the B coefficient is 18. I used the class AffineCipher with the method decipher to decrypt the text (the code is based on the one found at the following website, but slightly modefied: https://replit.com/@mx-raza/Brute-force-Affine-cypher. The text is hehadtolookstraightinfrontofhimobriencameinyouaskedmeoncehesaidwhatwasinroomisaidthatyouknewtheansweralready
 task1 = "NENSBXIZIIWUXRSQKNXQFHRIFXIHNQCIVRQEFYSCEQFMIASUWEBCEIFYENEUSQBGNSXGSUQFRIICQUSQBXNSXMIAWFEGXNESFUGERSZRESBM"
 
 # Task2 is a monoalphabetic password cipher. The password was bowling. The deciphered text is heputitdownonthetablenearthedoortheworstthingintheworldsaidobrienisdifferentforeachpersonitmaybedeathbyfireorbywaterorfiftyotherdeathssometimesitissomethingquitesmallthatdoesnotevenkillyouhehadmovedtoonesideandwinstoncouldnowseewhatwasonthetable
 task2 = "AIMTSCSLKVJKJSAISBOFIJIBQSAILKKQSAIVKQRSSACJGCJSAIVKQFLRBCLKOQCIJCRLCNNIQIJSNKQIBWAMIQRKJCSHBYOILIBSAOYNCQIKQOYVBSIQKQNCNSYKSAIQLIBSARRKHISCHIRCSCRRKHISACJGPTCSIRHBFFSABSLKIRJKSIUIJECFFYKTAIABLHKUILSKKJIRCLIBJLVCJRSKJWKTFLJKVRIIVABSVBRKJSAISBOFI"
 
-# Task3 is a Vignere cipher. I used this website to decode it: https://www.boxentriq.com/code-breaking/vigenere-cipher. The password was armenian. The deciphered text is winston had been afraid before but suddenly he understood what the tube was for he felt very very sick you cant do that he screamed obrien what do you want me to do pain alone said obrien quietly is not always enough the rathe continued like a teacher giving a lesson eats meat in the poor parts of the town a mother cannot leave her baby outside because in ten minutes there will only be bones left
+# Task3 is a Vignere cipher. I used this class I used was VignettCipher with the method decipher. The password was armenian. The deciphered text is winston had been afraid before but suddenly he understood what the tube was for he felt very very sick you cant do that he screamed obrien what do you want me to do pain alone said obrien quietly is not always enough the rathe continued like a teacher giving a lesson eats meat in the poor parts of the town a mother cannot leave her baby outside because in ten minutes there will only be bones left
 task3 = "WZZWGWNUAUNIRVASRRUHOMFBRVNYGAUQDVZPLPEHNUQVFBOBDNTEGBHRTLNIJISSOITISMLGVVDCIMRLSZOOLWUPAEFHBBHNTYQWPZENMVPSOZIRNNTEGLOLOLIEABMRTFPSCIIAACARRAAVDFNVVMNDUZQXYGIFNFFEYEALSVZSHOHGHVDEGPEPOEFMACEQLZWINBENCYQVTQVVNXMPRASBNVMXFUENTZZXUMPBOIBEEBSBFKTIGWWAADAXUMRPAEZSGTENVVTIEJAOYFGXFQDRBVOEHAEVNKQRZQNHTVEXUMRRWZXPBVLLBVNSAMSYEWF"
 
-# Task4 is a Column Transposition Cipher. The Password is adceb and the website I used to solve it is https://www.boxentriq.com/code-breaking/columnar-transposition-cipher. The Decrypted text is sometimes they attack the eyes first sometimes they eat through the face into the tongue one end of the tube was put over his face he could see the first rat its face its teeth xxx.
+# Task4 is a Column Transposition Cipher. The column order is 03241 and the class I used is ColumnTransposition with the method decipherPassword. The Decrypted text is sometimes they attack the eyes first sometimes they eat through the face into the tongue one end of the tube was put over his face he could see the first rat its face its teeth xxx.
 task4 = "SIHTHSTTTAOHETNNOTAOIEUEIAFTTTTTTESESERTCOOODEWTHCOEFRSIEXMEYCEIOMETGFNEUETBPEFEDHSICTXOMEAEFSIHTUEIHGEFUSVSHLTRTASHESAKYRMEYHHATTENHEURACSETTEEX"
 
-#Task5 is a Table Cipher with a size of 2x143. I used the class ColumnTransposition with the method decipher to decrypt it. The deciphered text is: juliaidontcarewhatyoudotoherdestroyherfaceleaveonlybonesnotmejulianotmeheheardobrientouchtheswitchandknewhehadclosedthedoortothetubenotopeneditthechestnuttreecafewasalmostemptyitwasthelonelytimeoffifteenhoursmusiccamefromthetelescreensnowbutwinstonwaslisteningfornewsofthewarxxxxxxxxxxx
+# Task5 is a Table Cipher with a size of 2x143. I used the class ColumnTransposition with the method decipher to decrypt it. The deciphered text is: juliaidontcarewhatyoudotoherdestroyherfaceleaveonlybonesnotmejulianotmeheheardobrientouchtheswitchandknewhehadclosedthedoortothetubenotopeneditthechestnuttreecafewasalmostemptyitwasthelonelytimeoffifteenhoursmusiccamefromthetelescreensnowbutwinstonwaslisteningfornewsofthewarxxxxxxxxxxx
 task5 = "JTUHLEICAHIEDSOTNNTUCTATRREEWEHCAATFYEOWUADSOATLOMHOESRTDEEMSPTTRYOIYTHWEARSFTAHCEELLOENAEVLEYOTNILMYEBOOFNFEISFNTOETEMNEHJOUULRISAMNUOSTIMCECHAEMHEEFARRODMOTBHREITEENLTEOSUCCRHETEHNESSNWOIWTBCUHTAWNIDNKSNTEOWNHWEAHSALDICSLTOESNEIDNTGHFEODRONOERWTSOOTFHTEHTEUWBAERNXOXTXOXPXEXNXEXDXIXTX"
 
 # Hypotheses 1: There exists a common denomenator for each of the 8bit numbers - Result: Negative, the highest common denominator amongst the numbers is 1
@@ -68,7 +70,7 @@ task6 = "05158764 66149595 40886493 " \
 
 task7 = "FIFVVRKKUNYKKKYFRIRRDVLKJYUVVEPLCXYEUJYUNIUSVLVLYUUYAZZVVYYVESJUEVYJYYRYVKKTKWIVKERRZRRFVPCFVRURRKVVUVELYPRPYVYZFZUKEKWN"
 
-#Task 8 is a ceaser shift cipher, enciphered in a double column transposition cipher. I used the method decryptDoubleNoPassword from the file ColumnTransposition.py, to get my first list, then ran the decripher method from the file Ceaser.py on each element, and stored the results. The deciphered messege is: helovedbigbrotherthefirsttimeisawterrylennoxhewassittinginarollsroyceinfrontofafancyrestaurantandhewasverydrunknnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn. Table 1 has dimentions 48 x 3.0 and Table 2 has dimentions 2 x 72.0. The Ceaser shift is 10
+# Task 8 is a ceaser shift cipher, enciphered in a double column transposition cipher. I used the method decryptDoubleNoPassword from the file ColumnTransposition.py, to get my first list, then ran the decripher method from the file Ceaser.py on each element, and stored the results. The deciphered messege is: helovedbigbrotherthefirsttimeisawterrylennoxhewassittinginarollsroyceinfrontofafancyrestaurantandhewasverydrunknnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn. Table 1 has dimentions 48 x 3.0 and Table 2 has dimentions 2 x 72.0. The Ceaser shift is 10
 task8 = "RYYYNPQMYOOKRKSKDRWKCODNBXOXYXOXCXDXXXXXYXCXIXSXBVDOKSXBBRDDBPDCNSGSFGIBEVXXXRXKXSXSXSXBXVXYXOXPOXFPLKLIDCBEOXBXDOOCKBOBIUXXHXGXCXDXQXKXVXBXMXXX"
 
 task9 = "CELZCLRFXCLIPPRRYURFLTYVULEUEUWLETWDHWLBIXCUZYIYLLUTARXXLVCUXWEYTYXLUXXWRZORIZGUUYUXELCDZEXLRFTWIXFELXXMYXYRVHRXLNWICPHWXUTRBXZELRLIUUBLPULXLRWTKXCERNEVEXOWXYRWRVFROTTX"
@@ -86,111 +88,211 @@ def getWordsDefualt():
     with open('english-words.txt') as f:
         return f.read().split()
 
+
 def ceaserDoubleTransposition(task, filename, words):
+    return combineTwoMethods(Ceaser.decipher, ColumnTransposition.decipherDouble, filename=filename, words=words,
+                             task=task, origin="ceaserDoubleTransposition")
 
-        transpositions = ColumnTransposition.decryptDoubleNoPassword(task, words=words)
-        result = []
-        for transposition in transpositions:
-                temp = Ceaser.decipher(transposition.sentence, words, filename)
-                for ceaser in temp:
-                        print(ceaser.sentence)
-                        ceaser.password = transposition.password
-                result.extend(temp)
 
-        result.sort(key=lambda x: x.counter, reverse=True)
-        file1 = open(filename, "w")
-        for sentece in result:
-                sentece.printToFile(file1, includePassword=True, includeShift=True)
-        file1.close()
+def ceaserWithPasswordSubstitution(task, filename, words):
+    return combineTwoMethods(Ceaser.decipher, MonoalphabeticPass.decipher, filename=filename, words=words, task=task,
+                             origin="ceaserWithPasswordSubstitution")
 
-def passwordTranspositionSubstitutionCipher(filename, words, task):
-        transpositions = ColumnTransposition.decipherPassword(task, words, filename)
-        result = []
-        for transposition in transpositions:
-                temp = SubstitutionCipher.decript(transposition.sentence, quadrams="C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\english_quadgrams.txt",words=words)
-                temp.password = "Cipher Key: " + temp.password + " Table Properties: " + transposition.password
-                result.append(temp)
-        passwords = MonoalphabeticPass.decipher(task, words, filename)
-        for password in passwords:
-                temp = ColumnTransposition.decipherPassword(password.sentence, words, filename)
-                for element in temp:
-                        element.password = "Cipher Key: " + password.password + " Table Properties: " + element.password
-                result.extend(temp)
-        result.sort(key=lambda x: x.counter, reverse=True)
 
-        file1 = open(filename, "w")
-        for sentece in result:
-                sentece.printToFile(file1, includePassword=True, includeShift=True)
-        file1.close()
+def ceaserWithVignett(task, filename, words):
+    return combineTwoMethods(Ceaser.decipher, VignettCipher.decipher, filename=filename, words=words, task=task,
+                             origin="ceaserWithVignett")
 
-def passwordSubstitutionTableCipher(filename,words,task):
-        result = []
-        passwords = MonoalphabeticPass.decipher(task,words,filename)
-        for password in passwords:
-                tables = ColumnTransposition.decipher(password.sentence,words,filename)
-                for table in tables:
-                        table.password += "Password: " + password.password
-                result.extend(tables)
-        result.sort(key=lambda x: x.counter, reverse=True)
 
-        file1 = open(filename, "w")
-        for sentece in result:
-                sentece.printToFile(file1, includePassword=True, includeShift=True)
-        file1.close()
+def ceaserWithTable(task, filename, words):
+    return combineTwoMethods(Ceaser.decipher, ColumnTransposition.decipher, filename=filename, words=words, task=task,
+                             origin="ceaserWithTable")
+
+
+def ceaserWithPasswordTransposition(task, filename, words):
+    return combineTwoMethods(Ceaser.decipher, ColumnTransposition.decipherPassword, filename=filename, words=words,
+                             task=task, origin="ceaserWithPasswordTransposition")
+
+
+def passwordSubstitutionWithVignett(filename, words, task):
+    return combineTwoMethods(MonoalphabeticPass.decipher, VignettCipher.decipher, filename=filename, words=words,
+                             task=task, origin="passwordSubstitutionWithVignett")
+
+
+def passwordSubstitutionWithColumnTransposition(filename, words, task):
+    return combineTwoMethods(MonoalphabeticPass.decipher, ColumnTransposition.decipherPassword, filename=filename,
+                             words=words,
+                             task=task, origin="passwordSubstitutionWithColumnTransposition")
+
+
+def passwordSubstitutionWithTable(filename, words, task):
+    return combineTwoMethods(MonoalphabeticPass.decipher, ColumnTransposition.decipher, filename=filename, words=words,
+                             task=task, origin="passwordSubstitutionWithTable")
+
+
+def passwordSubstitutionWithDoubleTransposition(filename, words, task):
+    return combineTwoMethods(MonoalphabeticPass.decipher, ColumnTransposition.decipherDouble, filename=filename,
+                             words=words,
+                             task=task, origin="passwordSubstitutionWithTable")
+
+
+def passwordSubstitutionTableCipher(filename, words, task):
+    return combineTwoMethods(MonoalphabeticPass.decipher, ColumnTransposition.decipher, filename=filename, words=words,
+                             task=task, origin="passwordSubstitutionTableCipher")
+
+
 def affinWithPasswordTransposition(filename, words, task):
-        result = []
-        affines = AffineCipher.decipher(encrypted=task, words=words)
-        counter = 0
-        for affine in affines:
-                counter += 1
-                print("Part 1: " + str(counter)+"/"+str(len(affines)))
-                columns = ColumnTransposition.decipherPassword(affine.sentence,words,filename)
-                for column in columns:
-                        column.password += affine.password
-                result.extend(columns)
-                result.sort(key=lambda x: x.counter, reverse=True)
-                print("Best guess: " + result[0].sentence)
-        columns = ColumnTransposition.decipherPassword(task,words,filename)
-        counter = 0
-        for column in columns:
-                counter += 1
-                print("Part 1: " + str(counter) + "/" + str(len(columns)))
-                affines = AffineCipher.decipher(encrypted=column.sentence,words=words)
-                for affine in affines:
-                        affine.password += column.password
-                result.extend(affines)
-                result.sort(key=lambda x: x.counter, reverse=True)
-                print("Best guess: " + result[0].sentence)
-        result.sort(key=lambda x: x.counter, reverse=True)
+    return combineTwoMethods(AffineCipher.decipher, ColumnTransposition.decipherPassword, filename=filename,
+                             words=words, task=task, origin="affinWithPasswordTransposition")
 
-        file1 = open(filename, "w")
-        for sentece in result:
-                sentece.printToFile(file1, includePassword=True, includeShift=True)
-        file1.close()
+
+def affineWithVignere(task, words, filename):
+    return combineTwoMethods(AffineCipher.decipher, VignettCipher.decipher, filename=filename, words=words, task=task,
+                             origin="affineWithVignere")
+
+
+def affineWithPasswordSubstitution(filename, words, task):
+    combineTwoMethods(AffineCipher.decipher, MonoalphabeticPass.decipher, filename=filename, words=words, task=task,
+                      origin="affineWithPasswordSubstitution")
+
+
+def affineWithColumnTransposition(filename, words, task):
+    return combineTwoMethods(AffineCipher.decipher, ColumnTransposition.decipherPassword, filename=filename,
+                             words=words, task=task, origin="affineWithColumnTransposition")
+
+
+def affineWithTable(filename, words, task):
+    return combineTwoMethods(AffineCipher.decipher, ColumnTransposition.decipher, filename=filename, words=words,
+                             task=task, origin="affineWithTable")
+
+
+def affineWithDoubleTransposition(filename, words, task):
+    return combineTwoMethods(AffineCipher.decipher, ColumnTransposition.decipherDouble, filename=filename, words=words,
+                             task=task, origin="affineWithDoubleTransposition")
+
+
+def affineWithCeaser(filename, words, task):
+    return combineTwoMethods(AffineCipher.decipher, Ceaser.decipher, filename=filename, words=words, task=task,
+                             origin="affineWithCeaser")
+
+
+def vignettWithTable(filename, words, task):
+    return combineTwoMethods(VignettCipher.decipher, ColumnTransposition.decipher, filename=filename, words=words,
+                             task=task, origin="vignettWithTable")
+
+
+def vignettWithColumnTransposition(filename, words, task):
+    return combineTwoMethods(VignettCipher.decipher, ColumnTransposition.decipherPassword, filename=filename,
+                             words=words,
+                             task=task, origin="vignettWithColumnTransposition")
+
+
+def vignettWithDoubleTransposition(filename, words, task):
+    return combineTwoMethods(VignettCipher.decipher, ColumnTransposition.decipherDouble, filename=filename, words=words,
+                             task=task, origin="vignettWithDoubleTransposition")
+
+
+def tableWithColumnTransposition(filename, words, task):
+    return combineTwoMethods(ColumnTransposition.decipher, ColumnTransposition.decipherPassword, filename=filename,
+                             words=words,
+                             task=task, origin="tableWithColumnTransposition")
+
+
+def tableWithDoubleTransposition(filename, words, task):
+    return combineTwoMethods(ColumnTransposition.decipher, ColumnTransposition.decipherDouble, filename=filename,
+                             words=words,
+                             task=task, origin="tableWithDoubleTransposition")
+
+
+def columnTranspositionWithDoubleTransposition(filename, words, task):
+    return combineTwoMethods(ColumnTransposition.decipherPassword, ColumnTransposition.decipherDouble,
+                             filename=filename,
+                             words=words,
+                             task=task, origin="columnTranspositionWithDoubleTransposition")
+
+
+def storeInFile(filename, results):
+    results.sort(key=lambda x: x.counter, reverse=True)
+    file1 = open(filename, "w")
+    for sentece in results:
+        sentece.printToFile(file1, includePassword=True, includeShift=True)
+    file1.close()
+    return results
+
+
+def combineTwoMethods(decipher1, decipher2, filename, words, task, origin):
+    p1 = decipher1(encrypted=task, words=words, filename=filename)
+    counter = 0
+    results = []
+    for element in p1:
+        counter += 1
+        print("Part 1: " + str(counter) + "/" + str(len(p1)))
+        p2 = decipher2(words=words, encrypted=element.sentence, filename=filename)
+        for el in p2:
+            password = " Origin: " + origin
+            if element.shift is not None:
+                if el.shift is not None:
+                    el.shift += element.shift
+                else:
+                    el.shift = element.shift
+            if element.password is not None:
+                password = element.password + password
+            if el.password is not None:
+                password += el.password + password
+            el.password = password
+        results.extend(p2)
+        results.sort(key=lambda x: x.counter, reverse=True)
+        print("Best guess: " + results[0].sentence)
+    storeInFile(filename, results)
+    return results
+
+
+def bruteForceAllMethods(path, filename, suffix, task, words):
+
+    methods = [
+        #ceaserDoubleTransposition, ceaserWithPasswordSubstitution, ceaserWithVignett, ceaserWithTable,
+         #      ceaserWithPasswordTransposition, passwordSubstitutionWithVignett,passwordSubstitutionWithColumnTransposition,
+             #passwordSubstitutionWithTable,
+               #passwordSubstitutionWithDoubleTransposition,
+                passwordSubstitutionTableCipher,
+               affinWithPasswordTransposition,
+               affineWithVignere, affineWithPasswordSubstitution,
+               affineWithColumnTransposition,
+               affineWithTable, affineWithDoubleTransposition, affineWithCeaser, vignettWithTable,
+               vignettWithColumnTransposition,
+               vignettWithDoubleTransposition, tableWithColumnTransposition, tableWithDoubleTransposition,
+               columnTranspositionWithDoubleTransposition]
+
+    results = []
+    counter = 8
+    for method in methods:
+        counter+=1
+        print("Step "+ str(counter) + " out of " + str(len(methods)))
+        results.extend(method(filename=path + "Step" + str(counter) + suffix, task=task, words=words))
+        results.sort(key=lambda x: x.counter, reverse=True)
+        results = results[0:25]
+        print("Best Guess:  " + results[0].sentence + " With Password: " + results[0].password)
+        storeInFile(filename=path + filename + suffix,results=results)
+
 
 if __name__ == '__main__':
-        filename = "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\task9.txt"
-        words = getWords(
-                "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\english-words.txt")
-        task = task9.lower()
+    path = "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\"
+    suffix = ".txt"
+    filename = "task7"
+    words = getWords(path+"english-words.txt")
+    task = task7.lower()
+    bruteForceAllMethods(path=path,filename=filename,suffix=suffix,task=task,words=words)
 
-        affinWithPasswordTransposition(filename,words,task)
+    # affineWithVignere(task, words, filename)
 
-
-        filename = "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\task7.txt"
-        task = task7.lower()
-        affinWithPasswordTransposition(filename, words, task)
-        #result = []
-        #filename = "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\test.txt"
-        #for task in alphabeticTasks:
-        #        result.extend(VignettCipher.decipher(task.lower(), getWords(
-        #                "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),
-        #                                      filename=filename))
-        #result.sort(key=lambda x: x.counter, reverse=True)
-        #file1 = open(filename, "w")
-        #for sentece in results:
-        #        sentece.printToFile(file1, includePassword=True, includeShift=True)
-        #file1.close()
-
-
-
+    # result = []
+    # filename = "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\test.txt"
+    # for task in alphabeticTasks:
+    #        result.extend(VignettCipher.decipher(task.lower(), getWords(
+    #                "C:\\Users\\Levyaton\\PycharmProjects\\KAB-Semestralka\\english-words.txt"),
+    #                                      filename=filename))
+    # result.sort(key=lambda x: x.counter, reverse=True)
+    # file1 = open(filename, "w")
+    # for sentece in results:
+    #        sentece.printToFile(file1, includePassword=True, includeShift=True)
+    # file1.close()

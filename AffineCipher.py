@@ -1,5 +1,5 @@
 from WordPower import  WordPowerObject
-def decipher(words, encrypted):
+def decipher(words, encrypted, filename):
     code = encrypted  # asking for the input of the code
     string_lenght = len(code)  # identifying the lenght of the code to decode
     i = 0  # setting initial character selection to 0
