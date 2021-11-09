@@ -124,6 +124,7 @@ def decipherPassword(encrypted, words, filename,alphabet):
         results.extend(decrypt(words=words,table=table))
     results.sort(key=lambda x: x.counter, reverse=True)
     file1 = open(filename, "w")
+    results = results[0:25]
     for word in results:
         word.printToFile(file1, includePassword=True, includeShift=False)
     file1.close()
@@ -137,6 +138,7 @@ def decipher(encrypted, words, filename, alphabet):
                                                  password=str(table.width) + " x " + str(table.height)))
     results.sort(key=lambda x: x.counter, reverse=True)
     file1 = open(filename, "w")
+    results = results[0:25]
     for word in results:
         word.printToFile(file1, includePassword=True, includeShift=False)
     file1.close()

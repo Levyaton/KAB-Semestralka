@@ -34,6 +34,7 @@ def decipher(encrypted, words, filename,alphabet):
         results.append(WordPower.WordPowerObject(sentence=decrypted,shift=None,password=password,words=words))
     results.sort(key=lambda x: x.counter, reverse=True)
     file1 = open(filename, "w")
+    results = results[0:25]
     for word in results:
         word.printToFile(file1, includePassword=True, includeShift=False)
     file1.close()

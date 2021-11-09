@@ -25,6 +25,7 @@ def decipher(encrypted,words,filename,alphabet):
             print("Sentence: " + temp.sentence + " Strength: " + str(temp.counter))
     results.sort(key=lambda x: x.counter, reverse=True)
     file1 = open(filename, "w")
+    results = results[0:25]
     for word in results:
         word.printToFile(file1,includePassword=True,includeShift=False)
     file1.close()

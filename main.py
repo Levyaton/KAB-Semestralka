@@ -215,6 +215,7 @@ def columnTranspositionWithDoubleTransposition(filename, words, task):
 def storeInFile(filename, results):
     results.sort(key=lambda x: x.counter, reverse=True)
     file1 = open(filename, "w")
+    results = results[0:25]
     for sentece in results:
         sentece.printToFile(file1, includePassword=True, includeShift=True)
     file1.close()
@@ -272,14 +273,13 @@ def bruteForceAllMethods(path, filename, suffix, task, words):
                columnTranspositionWithDoubleTransposition]
 
     results = []
-    counter = 8
+    counter = 0
     for method in methods:
         counter+=1
         print("Step "+ str(counter) + " out of " + str(len(methods)))
         result = method(filename=path + "Step" + str(counter) + suffix, task=task, words=words)
         results.extend(result)
         results.sort(key=lambda x: x.counter, reverse=True)
-        results = results[0:25]
         if len(results) > 1:
             print("Best Guess:  " + results[0].sentence + " With Password: " + results[0].password)
         storeInFile(filename=path + filename + suffix,results=results)
