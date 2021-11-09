@@ -111,13 +111,13 @@ def decryptDoubleNoPassword(encrypted, words):
     print("Decrypted")
     return results
 
-def decipherDouble(encrypted, words, filename):
+def decipherDouble(encrypted, words, filename, alphabet):
     noPasswords = decryptDoubleNoPassword(encrypted=encrypted,words=words)
     return noPasswords
 
 
 
-def decipherPassword(encrypted, words, filename):
+def decipherPassword(encrypted, words, filename,alphabet):
     tables = createTables(encrypted)
     results = []
     for table in tables:
@@ -128,7 +128,7 @@ def decipherPassword(encrypted, words, filename):
         word.printToFile(file1, includePassword=True, includeShift=False)
     file1.close()
     return results
-def decipher(encrypted, words, filename):
+def decipher(encrypted, words, filename, alphabet):
     tables = createTables(encrypted)
     results = []
     for table in tables:

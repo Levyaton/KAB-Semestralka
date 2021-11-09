@@ -1,6 +1,6 @@
 import WordPower
-def decipher(encrypted, words,filename):
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
+def decipher(encrypted, words,filename, alphabet):
+
     res = []
     for shift in range(1,26,1):
         dict = getDict(alphabet,shift)

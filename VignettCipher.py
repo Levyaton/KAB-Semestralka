@@ -1,49 +1,34 @@
 import WordPower
-alphabetMatrix = {
-    "a":"abcdefghijklmnopqrstuvwxyz",
-    "b":"bcdefghijklmnopqrstuvwxyza",
-    "c":"cdefghijklmnopqrstuvwxyzab",
-    "d":"defghijklmnopqrstuvwxyzabc",
-    "e":"efghijklmnopqrstuvwxyzabcd",
-    "f":"fghijklmnopqrstuvwxyzabcde",
-    "g":"ghijklmnopqrstuvwxyzabcdef",
-    "h":"hijklmnopqrstuvwxyzabcdefg",
-    "i":"ijklmnopqrstuvwxyzabcdefgh",
-    "j":"jklmnopqrstuvwxyzabcdefghi",
-    "k":"klmnopqrstuvwxyzabcdefghij",
-    "l":"lmnopqrstuvwxyzabcdefghijk",
-    "m":"mnopqrstuvwxyzabcdefghijkl",
-    "n":"nopqrstuvwxyzabcdefghijklm",
-    "o":"opqrstuvwxyzabcdefghijklmn",
-    "p":"pqrstuvwxyzabcdefghijklmno",
-    "q":"qrstuvwxyzabcdefghijklmnop",
-    "r":"rstuvwxyzabcdefghijklmnopq",
-    "s":"stuvwxyzabcdefghijklmnopqr",
-    "t":"tuvwxyzabcdefghijklmnopqrs",
-    "u":"uvwxyzabcdefghijklmnopqrst",
-    "v":"vwxyzabcdefghijklmnopqrstu",
-    "w":"wxyzabcdefghijklmnopqrstuv",
-    "x":"xyzabcdefghijklmnopqrstuvw",
-    "y":"yzabcdefghijklmnopqrstuvwx",
-    "z":"zabcdefghijklmnopqrstuvwxy",
-}
+
+def getAlphabetMatrix(alphabet):
+    matrix = {}
+    length = len(alphabet)
+    prev = alphabet[length-1] + alphabet[0:length-1]
+
+    for x in range(0,len(alphabet),1):
+        char = alphabet[x]
+        current =  prev[1:] + prev[0]
+        matrix[char] = current
+        prev = current
+    return matrix
 
 
-def getDictionaries(password):
+def getDictionaries(password, alphabet):
     dictionaries = []
-    primeAlphabet = alphabetMatrix["a"]
+    matrix = getAlphabetMatrix(alphabet)
+    primeAlphabet = matrix["a"]
     for char in password:
-        shiftedAlphabet = alphabetMatrix[char]
+        shiftedAlphabet = matrix[char]
         dictionary = {}
         for x in range(0,len(primeAlphabet),1):
             dictionary[shiftedAlphabet[x]]=primeAlphabet[x]
         dictionaries.append(dictionary)
     return dictionaries
 
-def decipher(encrypted, words, filename):
+def decipher(encrypted, words, filename,alphabet):
     results = []
     for password in words:
-        dictionaries = getDictionaries(password)
+        dictionaries = getDictionaries(password,alphabet)
         decrypted = decrypt(dictionaries,encrypted,password)
         print(decrypted)
         results.append(WordPower.WordPowerObject(sentence=decrypted,shift=None,password=password,words=words))

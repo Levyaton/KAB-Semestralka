@@ -13,10 +13,10 @@ def toAlphabet(encrypted, alphabet):
         result += letter
     return result
 
-def decipher(encrypted,words,filename):
+def decipher(encrypted,words,filename,alphabet):
     results = []
     for word in words:
-        dict = MonoalphabeticPass.getAlphabetDict(word)
+        dict = MonoalphabeticPass.getAlphabetDict(word, alphabet)
         alphabet = list(dict.keys())
         for x in range(0, 26, 1):
             temp = WordPower.WordPowerObject(password=word, shift=x,sentence=decrypt(toAlphabet(encrypted, alphabet[x:] + alphabet[:x]), word), words=words)
@@ -31,8 +31,8 @@ def decipher(encrypted,words,filename):
     return results
 
 
-def decrypt(encrypted, password):
-    dict = MonoalphabeticPass.getAlphabetDict(password)
+def decrypt(encrypted, password, alphabet):
+    dict = MonoalphabeticPass.getAlphabetDict(password, alphabet)
     decrypted = ""
     for char in encrypted:
         decrypted += dict[char]

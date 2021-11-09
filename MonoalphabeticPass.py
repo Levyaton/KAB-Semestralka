@@ -1,15 +1,15 @@
 import WordPower
 
-def encrypt(decrypted, password):
-    dict = getAlphabetDict(password)
+def encrypt(decrypted, password, alphabet):
+    dict = getAlphabetDict(password, alphabet)
     encrypted = ""
     for char in decrypted:
         encrypted += [k for k, v in dict.items() if v == char][0]
     return encrypted
-def decipher(encrypted,words,filename):
+def decipher(encrypted,words,filename, alphabet):
     results = []
     for word in words:
-        temp = WordPower.WordPowerObject(password=word, shift=None, sentence=decrypt(encrypted,word), words=words)
+        temp = WordPower.WordPowerObject(password=word, shift=None, sentence=decrypt(encrypted,word,alphabet), words=words)
         if temp.counter > 1:
             results.append(temp)
         print("Sentence: " + temp.sentence + " Strength: " + str(temp.counter))
@@ -21,15 +21,15 @@ def decipher(encrypted,words,filename):
     return results
 
 
-def decrypt(encrypted, password):
-    dict = getAlphabetDict(password)
+def decrypt(encrypted, password,alphabet):
+    dict = getAlphabetDict(password,alphabet)
     decrypted = ""
     for char in encrypted:
         decrypted += dict[char]
     return decrypted
-def getAlphabetDict(password):
+def getAlphabetDict(password, alphabet):
     dict = {}
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
+
     newAlph = alphabet
     counter = 0
     for char in password:

@@ -3,11 +3,14 @@ import VignettCipher
 import NumberCipher
 import os
 import Ceaser
-import RSA
+
 import Task6Playground
-import SubstitutionCipher
+
 import AffineCipher
 import ColumnTransposition
+
+
+alphabet = "abcdefghijklmnopqrstuvwxyz"
 
 # Task1 is an Affine Cipher cipher. The Keys are A = 3, B = 18 and the code is svybehknqpwzcfiojruxatgdml, where the A coefficient is 3 and the B coefficient is 18. I used the class AffineCipher with the method decipher to decrypt the text (the code is based on the one found at the following website, but slightly modefied: https://replit.com/@mx-raza/Brute-force-Affine-cypher. The text is hehadtolookstraightinfrontofhimobriencameinyouaskedmeoncehesaidwhatwasinroomisaidthatyouknewtheansweralready
 task1 = "NENSBXIZIIWUXRSQKNXQFHRIFXIHNQCIVRQEFYSCEQFMIASUWEBCEIFYENEUSQBGNSXGSUQFRIICQUSQBXNSXMIAWFEGXNESFUGERSZRESBM"
@@ -24,8 +27,6 @@ task4 = "SIHTHSTTTAOHETNNOTAOIEUEIAFTTTTTTESESERTCOOODEWTHCOEFRSIEXMEYCEIOMETGFN
 # Task5 is a Table Cipher with a size of 2x143. I used the class ColumnTransposition with the method decipher to decrypt it. The deciphered text is: juliaidontcarewhatyoudotoherdestroyherfaceleaveonlybonesnotmejulianotmeheheardobrientouchtheswitchandknewhehadclosedthedoortothetubenotopeneditthechestnuttreecafewasalmostemptyitwasthelonelytimeoffifteenhoursmusiccamefromthetelescreensnowbutwinstonwaslisteningfornewsofthewarxxxxxxxxxxx
 task5 = "JTUHLEICAHIEDSOTNNTUCTATRREEWEHCAATFYEOWUADSOATLOMHOESRTDEEMSPTTRYOIYTHWEARSFTAHCEELLOENAEVLEYOTNILMYEBOOFNFEISFNTOETEMNEHJOUULRISAMNUOSTIMCECHAEMHEEFARRODMOTBHREITEENLTEOSUCCRHETEHNESSNWOIWTBCUHTAWNIDNKSNTEOWNHWEAHSALDICSLTOESNEIDNTGHFEODRONOERWTSOOTFHTEHTEUWBAERNXOXTXOXPXEXNXEXDXIXTX"
 
-# Hypotheses 1: There exists a common denomenator for each of the 8bit numbers - Result: Negative, the highest common denominator amongst the numbers is 1
-# Hypotheses 2: Each 8-bit number converts to a number from 0-25 in mod 26, that can then be mapped to a monoalphabetic cipher - Result: It isn't a simple monoalphabetic password cipher, nor is it a monoalphabetic cypher with a shift
 task6 = "05158764 66149595 40886493 " \
         "24319962 68162102 68480515 " \
         "43690900 53185321 21006618 " \
@@ -221,13 +222,13 @@ def storeInFile(filename, results):
 
 
 def combineTwoMethods(decipher1, decipher2, filename, words, task, origin):
-    p1 = decipher1(encrypted=task, words=words, filename=filename)
+    p1 = decipher1(encrypted=task, words=words, filename=filename, alphabet=alphabet)
     counter = 0
     results = []
     for element in p1:
         counter += 1
         print("Part 1: " + str(counter) + "/" + str(len(p1)))
-        p2 = decipher2(words=words, encrypted=element.sentence, filename=filename)
+        p2 = decipher2(words=words, encrypted=element.sentence, filename=filename, alphabet=alphabet)
         for el in p2:
             password = " Origin: " + origin
             if element.shift is not None:
@@ -242,18 +243,25 @@ def combineTwoMethods(decipher1, decipher2, filename, words, task, origin):
             el.password = password
         results.extend(p2)
         results.sort(key=lambda x: x.counter, reverse=True)
-        print("Best guess: " + results[0].sentence)
+        if(len(results) > 0):
+            print("Best guess: " + results[0].sentence)
     storeInFile(filename, results)
     return results
 
 
 def bruteForceAllMethods(path, filename, suffix, task, words):
-
-    methods = [
-        #ceaserDoubleTransposition, ceaserWithPasswordSubstitution, ceaserWithVignett, ceaserWithTable,
+#The following are probably a waist of time:
+#ceaserDoubleTransposition, ceaserWithPasswordSubstitution, ceaserWithVignett, ceaserWithTable,
          #      ceaserWithPasswordTransposition, passwordSubstitutionWithVignett,passwordSubstitutionWithColumnTransposition,
              #passwordSubstitutionWithTable,
                #passwordSubstitutionWithDoubleTransposition,
+
+
+    methods = [
+        ceaserDoubleTransposition, ceaserWithPasswordSubstitution, ceaserWithVignett, ceaserWithTable,
+               ceaserWithPasswordTransposition, passwordSubstitutionWithVignett,passwordSubstitutionWithColumnTransposition,
+             passwordSubstitutionWithTable,
+               passwordSubstitutionWithDoubleTransposition,
                 passwordSubstitutionTableCipher,
                affinWithPasswordTransposition,
                affineWithVignere, affineWithPasswordSubstitution,
@@ -268,19 +276,23 @@ def bruteForceAllMethods(path, filename, suffix, task, words):
     for method in methods:
         counter+=1
         print("Step "+ str(counter) + " out of " + str(len(methods)))
-        results.extend(method(filename=path + "Step" + str(counter) + suffix, task=task, words=words))
+        result = method(filename=path + "Step" + str(counter) + suffix, task=task, words=words)
+        results.extend(result)
         results.sort(key=lambda x: x.counter, reverse=True)
         results = results[0:25]
-        print("Best Guess:  " + results[0].sentence + " With Password: " + results[0].password)
+        if len(results) > 1:
+            print("Best Guess:  " + results[0].sentence + " With Password: " + results[0].password)
         storeInFile(filename=path + filename + suffix,results=results)
 
 
 if __name__ == '__main__':
     path = "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\"
     suffix = ".txt"
-    filename = "task7"
+    filename = "test"
     words = getWords(path+"english-words.txt")
-    task = task7.lower()
+    task = task3.lower()
+    #VignettCipher.decipher(encrypted=task, words=words,filename=path+filename+suffix,alphabet=alphabet)
+    task = "xdzwawff"
     bruteForceAllMethods(path=path,filename=filename,suffix=suffix,task=task,words=words)
 
     # affineWithVignere(task, words, filename)

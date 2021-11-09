@@ -970,6 +970,7 @@ speed
 html
 countries
 loss
+armenian
 face
 brand
 discount
