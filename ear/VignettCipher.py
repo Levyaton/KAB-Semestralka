@@ -1,4 +1,5 @@
-import WordPower
+from ear import WordPower
+
 
 def getAlphabetMatrix(alphabet):
     matrix = {}
@@ -31,7 +32,7 @@ def decipher(encrypted, words, filename,alphabet):
         dictionaries = getDictionaries(password,alphabet)
         decrypted = decrypt(dictionaries,encrypted,password)
         print(decrypted)
-        results.append(WordPower.WordPowerObject(sentence=decrypted,shift=None,password=password,words=words))
+        results.append(WordPower.WordPowerObject(sentence=decrypted, shift=None, password=password, words=words))
     results.sort(key=lambda x: x.counter, reverse=True)
     file1 = open(filename, "w")
     results = results[0:25]

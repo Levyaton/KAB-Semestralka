@@ -1,6 +1,4 @@
-import WordPower
-import MonoalphabeticPass
-
+from ear.main import MonoalphabeticPass, WordPower
 
 
 def toAlphabet(encrypted, alphabet):
@@ -19,7 +17,7 @@ def decipher(encrypted,words,filename,alphabet):
         dict = MonoalphabeticPass.getAlphabetDict(word, alphabet)
         alphabet = list(dict.keys())
         for x in range(0, 26, 1):
-            temp = WordPower.WordPowerObject(password=word, shift=x,sentence=decrypt(toAlphabet(encrypted, alphabet[x:] + alphabet[:x]), word), words=words)
+            temp = WordPower.WordPowerObject(password=word, shift=x, sentence=decrypt(toAlphabet(encrypted, alphabet[x:] + alphabet[:x]), word), words=words)
             if temp.counter > 1:
                 results.append(temp)
             print("Sentence: " + temp.sentence + " Strength: " + str(temp.counter))

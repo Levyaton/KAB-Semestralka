@@ -1,4 +1,5 @@
-import WordPower
+from ear import WordPower
+
 
 def encrypt(decrypted, password, alphabet):
     dict = getAlphabetDict(password, alphabet)
@@ -9,7 +10,7 @@ def encrypt(decrypted, password, alphabet):
 def decipher(encrypted,words,filename, alphabet):
     results = []
     for word in words:
-        temp = WordPower.WordPowerObject(password=word, shift=None, sentence=decrypt(encrypted,word,alphabet), words=words)
+        temp = WordPower.WordPowerObject(password=word, shift=None, sentence=decrypt(encrypted, word, alphabet), words=words)
         if temp.counter > 1:
             results.append(temp)
         print("Sentence: " + temp.sentence + " Strength: " + str(temp.counter))

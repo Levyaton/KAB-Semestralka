@@ -1,14 +1,4 @@
-import MonoalphabeticPass
-import VignettCipher
-import NumberCipher
-import os
-import Ceaser
-
-import Task6Playground
-
-import AffineCipher
-import ColumnTransposition
-
+from ear import Ceaser, MonoalphabeticSubstitution, VignettCipher, AffineCipher, ColumnTransposition, MonoalphabeticPass, NewColumnTransposition
 
 alphabet = "abcdefghijklmnopqrstuvwxyz"
 
@@ -68,12 +58,14 @@ task6 = "05158764 66149595 40886493 " \
         "46921086 26499037 55481537 " \
         "42360193 22625545 18314108 " \
         "42624946 21784033 44055218 "
-
+#Ceaser? (Monoalphabetic Shift) + Table Column (Password) transposition)
 task7 = "FIFVVRKKUNYKKKYFRIRRDVLKJYUVVEPLCXYEUJYUNIUSVLVLYUUYAZZVVYYVESJUEVYJYYRYVKKTKWIVKERRZRRFVPCFVRURRKVVUVELYPRPYVYZFZUKEKWN"
 
 # Task 8 is a ceaser shift cipher, enciphered in a double column transposition cipher. I used the method decryptDoubleNoPassword from the file ColumnTransposition.py, to get my first list, then ran the decripher method from the file Ceaser.py on each element, and stored the results. The deciphered messege is: helovedbigbrotherthefirsttimeisawterrylennoxhewassittinginarollsroyceinfrontofafancyrestaurantandhewasverydrunknnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn. Table 1 has dimentions 48 x 3.0 and Table 2 has dimentions 2 x 72.0. The Ceaser shift is 10
 task8 = "RYYYNPQMYOOKRKSKDRWKCODNBXOXYXOXCXDXXXXXYXCXIXSXBVDOKSXBBRDDBPDCNSGSFGIBEVXXXRXKXSXSXSXBXVXYXOXPOXFPLKLIDCBEOXBXDOOCKBOBIUXXHXGXCXDXQXKXVXBXMXXX"
 
+#Affine + Complete table with no cipher
+#Task 9 is an affine cipher, enciphered in a simple table cipher. I used the method affineWithTable and the deciphered message is: herhairwasaprettydarkredandshehadadistantsmileonherlipsihaveawonderfulideadarlingthewomansaidtryingtobenicewhydontwetakeataxitoyourplaceandgetyourlittlecaroutiiiiiiiiii, A = 21, B = 11. The table size is 14x12
 task9 = "CELZCLRFXCLIPPRRYURFLTYVULEUEUWLETWDHWLBIXCUZYIYLLUTARXXLVCUXWEYTYXLUXXWRZORIZGUUYUXELCDZEXLRFTWIXFELXXMYXYRVHRXLNWICPHWXUTRBXZELRLIUUBLPULXLRWTKXCERNEVEXOWXYRWRVFROTTX"
 alphabeticTasks = [task1, task2, task3, task4, task5, task7, task8, task9]
 
@@ -168,7 +160,7 @@ def affineWithTable(filename, words, task):
 
 
 def affineWithDoubleTransposition(filename, words, task):
-    return combineTwoMethods(AffineCipher.decipher, ColumnTransposition.decipherDouble, filename=filename, words=words,
+    return combineTwoMethods(ColumnTransposition.decipherDouble, AffineCipher.decipher,filename=filename, words=words,
                              task=task, origin="affineWithDoubleTransposition")
 
 
@@ -250,6 +242,7 @@ def combineTwoMethods(decipher1, decipher2, filename, words, task, origin):
     return results
 
 
+
 def bruteForceAllMethods(path, filename, suffix, task, words):
 #The following are probably a waist of time:
 #ceaserDoubleTransposition, ceaserWithPasswordSubstitution, ceaserWithVignett, ceaserWithTable,
@@ -285,15 +278,39 @@ def bruteForceAllMethods(path, filename, suffix, task, words):
         storeInFile(filename=path + filename + suffix,results=results)
 
 
+
+
+
 if __name__ == '__main__':
-    path = "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\"
+    path = "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\ear\\"
     suffix = ".txt"
-    filename = "test"
-    words = getWords(path+"english-words.txt")
-    task = task3.lower()
+    filename = "testTask3"
+    words = getWords(path+"10k-english.txt")
+    task = task7
+    #MonoalphabeticSubstitution.decipher("Tasisimjcmiwlokngch".upper(),words,None,alphabet=alphabet)
+
+    #storeInFile(path+filename+suffix, ColumnTransposition.decipherPassword("TINESAXEOAHTFXHTLTHEYMAIIAIXTAPNGDLOSTNHMX".lower(),words,path+filename+suffix,alphabet))
+    #results = combineTwoMethods(ColumnTransposition.decipherPassword,MonoalphabeticSubstitution.decipher,path+filename+suffix,words,task7.lower(),"columnTranspositionWithMonoalphabeticSubstitution")
+    #results.extend(combineTwoMethods(MonoalphabeticSubstitution.decipher,ColumnTransposition.decipherPassword,path+filename+suffix,words,task7.lower(),"columnTranspositionWithMonoalphabeticSubstitution"))
+
+    ceaserWithPasswordTransposition(task.lower(),path+filename+suffix,words)
+    #results = ColumnTransposition.decipher(task5.lower(),words,path+filename+suffix,alphabet)
+   # storeInFile(path+filename+suffix,results)
+    #combineTwoMethods(MonoalphabeticSubstitution.decipher, ColumnTransposition.decipherDouble, path + filename + suffix, words, task.lower(), origin="columnTranspositionWithMonoalphabeticSubstitution")
+
+   # result = passwordSubstitutionWithColumnTransposition(task=task, words=words,filename=path+filename+suffix)
+    #storeInFile(path+filename+suffix,result)
+    #Task6Playground.factorialsAnalysis(task)
+    #task = Task6Playground.eightIsOneLetterToAlphabetConversion(task,alphabet,words)
+    #result = MonoalphabeticPass.decipher(task,words,path+filename+suffix,alphabet)
+    #print(task)
+    #ceasers = Ceaser.decipher(task,words,path+filename+suffix,alphabet)
+    #result = []
+    #for ceaser in ceasers:
+    #result.extend(VignettCipher.decipher(task,words,path+filename+suffix,alphabet))
+    #result.extend(AffineCipher.decipher(task, words, path + filename + suffix, alphabet))
+    #storeInFile(path+filename+suffix,result)
     #VignettCipher.decipher(encrypted=task, words=words,filename=path+filename+suffix,alphabet=alphabet)
-    task = "xdzwawff"
-    bruteForceAllMethods(path=path,filename=filename,suffix=suffix,task=task,words=words)
 
     # affineWithVignere(task, words, filename)
 

@@ -1,0 +1,9 @@
+.DS_Store
+cipher.txt
+*.swp
+ciphertexts.txt 
+ciphertexts/
+alphabets.txt
+__pycache__/
+*.js
+ignore/

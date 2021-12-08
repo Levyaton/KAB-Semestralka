@@ -1,8 +1,8 @@
 from functools import reduce
 from math import sqrt
-import WordPower
+from ear import WordPower
 from itertools import permutations
-
+from ear import Ceaser as CC
 class Table:
 
     def __init__(self, width, height, content):
@@ -73,16 +73,18 @@ def factors(n):
 def decrypt(words,table):
     results = []
     height = table.height
+    #If this variable is changed, we run out of memory and the task takes too long. For this reason, we limit the table height to 7
     if height <= 7:
         p = ""
         for x in range(0,int(height),1):
             p+=str(x)
-
-        passwords = [''.join(p) for p in permutations(p)]
+        permut = permutations(p)
+        passwords = []
+        for p in permut:
+            passwords.append(p)
         for password in passwords:
-            results.append(WordPower.WordPowerObject(sentence=table.readPassword(list(password)), password= str(table.height) + " x " + str(table.width) + ": " + password, words=words,shift=None))
+            results.append(WordPower.WordPowerObject(sentence=table.readPassword(list(password)), password=str(table.height) + " x " + str(table.width) + ": " + str(password), words=words, shift=None))
     return results
-
 
 
 
@@ -104,7 +106,8 @@ def decryptDoubleNoPassword(encrypted, words):
     results = []
     for table in secondTranspositions:
         password = "Table 1 has dimentions " + str(table.width) + " x " + str(table.height) + "Table 2 has dimentions " + table.message
-        results.append(WordPower.WordPowerObject(sentence=table.readVertical(),shift=None,password= password,words=words))
+        results.append(
+            WordPower.WordPowerObject(sentence=table.readVertical(), shift=None, password= password, words=words))
         results.append(
             WordPower.WordPowerObject(sentence=table.readHorizontal(), shift=None, password=password, words=words))
     results.sort(key=lambda x: x.counter, reverse=True)

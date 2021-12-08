@@ -1,7 +1,7 @@
 #this code is based on the one found at the following website, but slightly modefied: https://replit.com/@mx-raza/Brute-force-Affine-cypher
 
-from WordPower import  WordPowerObject
-def decipher(words, encrypted, filename, alphabet):
+from ear.WordPower import WordPowerObject
+def decipher(encrypted, words, filename, alphabet):
     code = encrypted  # asking for the input of the code
     string_lenght = len(code)  # identifying the lenght of the code to decode
     i = 0  # setting initial character selection to 0

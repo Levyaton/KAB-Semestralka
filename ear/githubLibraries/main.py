@@ -1,0 +1,53 @@
+
+#
+# Main script to actually run cipher decryption
+#
+
+from ear.githubLibraries.utils import get_args, get_text_data
+from ear.githubLibraries.substitution import Substitution
+from ear.githubLibraries.vigenere import Vigenere
+from ear.githubLibraries.caesar import Caesar
+
+args = get_args()
+file_data = get_text_data(args['FILENAME'])
+text = file_data
+
+if args['CIPHER'] == 'SUBSTITUTION':
+    substitution = Substitution()
+
+    if args['SHOULD_ENCRYPT']:
+        key = args['ENCRYPTION_KEY']
+        encrypted = substitution.encrypt(text, key)
+        print(encrypted)
+
+    elif args['SHOULD_DECRYPT']:
+        decrypted = substitution.decrypt(text)
+        print(decrypted)
+
+elif args['CIPHER'] == 'VIGENERE':
+    vigenere = Vigenere()
+
+    if args['SHOULD_ENCRYPT']:
+        key = args['ENCRYPTION_KEY']
+        encrypted = vigenere.encrypt(text, key)
+        print(encrypted)
+
+    elif args['SHOULD_DECRYPT']:
+        key_length = args['VIGENERE_KEY_LENGTH']
+        decrypted = vigenere.decrypt(text, key_length)
+        print(decrypted)
+
+elif args['CIPHER'] == 'CAESAR':
+    caesar = Caesar()
+
+    if args['SHOULD_ENCRYPT']:
+        key = args['ENCRYPTION_KEY']
+        encrypted = caesar.encrypt(text, key)
+        print(encrypted)
+
+    elif args['SHOULD_DECRYPT']:
+        decrypted = caesar.decrypt(text)
+        print(decrypted)
+else:
+   print("PLEASE ENTER A VALID CIPHER TYPE")
+
