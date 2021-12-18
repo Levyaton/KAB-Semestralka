@@ -9,17 +9,11 @@ def decipher(encrypted, words,filename, alphabet):
         decrypted = decrypt(encrypted,dict)
         temp = WordPower.WordPowerObject(sentence=decrypted, shift=shift, password=None, words= words)
         res.append(temp)
-    res.sort(key=lambda x: x.counter, reverse=True)
-    file1 = open(filename, "w")
-    for result in res:
-        print(result.sentence)
-    res = res[0:25]
-    for sentece in res:
-        sentece.printToFile(file1,includePassword=False,includeShift=True)
-    file1.close()
-
     return res
 
+def crack(encrypted, shift, alphabet):
+    dict = getDict(alphabet,shift)
+    return decrypt(encrypted,dict)
 
 def decrypt(encrypted, dictionary):
     deciphered = ""

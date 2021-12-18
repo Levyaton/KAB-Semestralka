@@ -1,4 +1,5 @@
-from ear import Ceaser, MonoalphabeticSubstitution, VignettCipher, AffineCipher, ColumnTransposition, MonoalphabeticPass, NewColumnTransposition
+from ear import Ceaser, MonoalphabeticSubstitution, VignettCipher, RSA, AffineCipher, ColumnTransposition, MonoalphabeticPass, NewColumnTransposition
+import threading
 
 alphabet = "abcdefghijklmnopqrstuvwxyz"
 
@@ -58,7 +59,7 @@ task6 = "05158764 66149595 40886493 " \
         "46921086 26499037 55481537 " \
         "42360193 22625545 18314108 " \
         "42624946 21784033 44055218 "
-#Ceaser? (Monoalphabetic Shift) + Table Column (Password) transposition)
+#Monoalphabetic Shift (Ceaser) of 17 + Column Transposition with key hadbegcf. I used the method decipher form the file Ceaser.py, in combination with https://www.boxentriq.com/code-breaking/columnar-transposition-cipher. The message is youonlycareaboutyourselfhehadagreedandhehadmeantithehadnotjustsaidithehadwishedithehadwantedherattheendofthetubewhenthey
 task7 = "FIFVVRKKUNYKKKYFRIRRDVLKJYUVVEPLCXYEUJYUNIUSVLVLYUUYAZZVVYYVESJUEVYJYYRYVKKTKWIVKERRZRRFVPCFVRURRKVVUVELYPRPYVYZFZUKEKWN"
 
 # Task 8 is a ceaser shift cipher, enciphered in a double column transposition cipher. I used the method decryptDoubleNoPassword from the file ColumnTransposition.py, to get my first list, then ran the decripher method from the file Ceaser.py on each element, and stored the results. The deciphered messege is: helovedbigbrotherthefirsttimeisawterrylennoxhewassittinginarollsroyceinfrontofafancyrestaurantandhewasverydrunknnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn. Table 1 has dimentions 48 x 3.0 and Table 2 has dimentions 2 x 72.0. The Ceaser shift is 10
@@ -103,7 +104,7 @@ def ceaserWithTable(task, filename, words):
 
 
 def ceaserWithPasswordTransposition(task, filename, words):
-    return combineTwoMethods(Ceaser.decipher, ColumnTransposition.decipherPassword, filename=filename, words=words,
+    return combineTwoMethods(Ceaser.decipher, NewColumnTransposition.decipher, filename=filename, words=words,
                              task=task, origin="ceaserWithPasswordTransposition")
 
 
@@ -212,32 +213,38 @@ def storeInFile(filename, results):
         sentece.printToFile(file1, includePassword=True, includeShift=True)
     file1.close()
     return results
-
+def combinationThread(results, element, decipher, origin):
+    p2 = decipher(words=words, encrypted=element.sentence, filename=filename, alphabet=alphabet)
+    for el in p2:
+        password = " Origin: " + origin
+        if element.shift is not None:
+            if el.shift is not None:
+                el.shift += element.shift
+            else:
+                el.shift = element.shift
+        if element.password is not None:
+            password = element.password + password
+        if el.password is not None:
+            password += el.password + password
+        el.password = password
+    results.extend(p2)
 
 def combineTwoMethods(decipher1, decipher2, filename, words, task, origin):
     p1 = decipher1(encrypted=task, words=words, filename=filename, alphabet=alphabet)
     counter = 0
     results = []
+    threads=[]
     for element in p1:
         counter += 1
         print("Part 1: " + str(counter) + "/" + str(len(p1)))
-        p2 = decipher2(words=words, encrypted=element.sentence, filename=filename, alphabet=alphabet)
-        for el in p2:
-            password = " Origin: " + origin
-            if element.shift is not None:
-                if el.shift is not None:
-                    el.shift += element.shift
-                else:
-                    el.shift = element.shift
-            if element.password is not None:
-                password = element.password + password
-            if el.password is not None:
-                password += el.password + password
-            el.password = password
-        results.extend(p2)
-        results.sort(key=lambda x: x.counter, reverse=True)
-        if(len(results) > 0):
-            print("Best guess: " + results[0].sentence)
+        thread = threading.Thread(target=combinationThread, args=(results, element, decipher2, origin))
+        thread.start()
+        threads.append(thread)
+    for thread in threads:
+        try:
+            thread.join()
+        except:
+            print("woops")
     storeInFile(filename, results)
     return results
 
@@ -282,18 +289,24 @@ def bruteForceAllMethods(path, filename, suffix, task, words):
 
 
 if __name__ == '__main__':
-    path = "C:\\Users\\czech\\PycharmProjects\\KAB-Semestralka\\ear\\"
+    path = "D:\\Documents\\GitHub\\KAB-Semestralka\\ear\\"
     suffix = ".txt"
-    filename = "testTask3"
+    filename = "task7.txt"
     words = getWords(path+"10k-english.txt")
-    task = task7
-    #MonoalphabeticSubstitution.decipher("Tasisimjcmiwlokngch".upper(),words,None,alphabet=alphabet)
+    task = task7.lower()
+   # print(RSA.decipher(task,9227,74154631))
 
+    result = Ceaser.decipher(task,words,path+filename+suffix,alphabet=alphabet)
+    storeInFile(filename=path+filename+suffix, results=result)
     #storeInFile(path+filename+suffix, ColumnTransposition.decipherPassword("TINESAXEOAHTFXHTLTHEYMAIIAIXTAPNGDLOSTNHMX".lower(),words,path+filename+suffix,alphabet))
     #results = combineTwoMethods(ColumnTransposition.decipherPassword,MonoalphabeticSubstitution.decipher,path+filename+suffix,words,task7.lower(),"columnTranspositionWithMonoalphabeticSubstitution")
     #results.extend(combineTwoMethods(MonoalphabeticSubstitution.decipher,ColumnTransposition.decipherPassword,path+filename+suffix,words,task7.lower(),"columnTranspositionWithMonoalphabeticSubstitution"))
-
-    ceaserWithPasswordTransposition(task.lower(),path+filename+suffix,words)
+    #results = NewColumnTransposition.decipher("NALCEHWTTDTTFSEELEEDSOAFEAHLXX".lower(),words,path+filename+suffix,alphabet)
+    #results = ceaserWithPasswordTransposition(task,path+filename+suffix,words)
+    #for result in results:
+     #   if "defend" in str(result.sentence):
+    #        print("hi")
+    #storeInFile(filename=path+filename+suffix,results=results)
     #results = ColumnTransposition.decipher(task5.lower(),words,path+filename+suffix,alphabet)
    # storeInFile(path+filename+suffix,results)
     #combineTwoMethods(MonoalphabeticSubstitution.decipher, ColumnTransposition.decipherDouble, path + filename + suffix, words, task.lower(), origin="columnTranspositionWithMonoalphabeticSubstitution")

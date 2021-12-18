@@ -11,6 +11,7 @@ from future.utils import listitems
 from ear import WordPower
 from pycipher import ColTrans
 from functools import reduce
+import threading
 
 
 def getKey(col_length):
@@ -24,10 +25,12 @@ def getKey(col_length):
 
     return [key[i:i+3] for i in range(0, len(key), 3)]
 
+def keyToList(key):
+   return [key[i:i + 3] for i in range(0, len(key), 3)]
 
-def factors(n):
-    return set(reduce(list.__add__,
-                      ([i, n // i] for i in range(1, int(n ** 0.5) + 1) if n % i == 0)))
+def factors(num):
+    return [n for n in range(1, num + 1) if num % n == 0]
+
 
 
 def decrypt(key, encrypted, col_length):
@@ -44,34 +47,69 @@ def decipher(encrypted, words, filename, alphabet):
     f = factors(length)
     results = []
     counter = 0
+    threads = []
     for factor in f:
         counter += 1
         print(str(counter) + " / " + str(len(f)))
         column_length = length / factor
-        temp = breakCipher(column_count=factor, column_length=column_length, encrypted=encrypted, words=words)
-        if temp is not None:
-            results.extend(temp)
-            # results.sort(key=lambda x: x.counter, reverse=True)
-            # results = results[:25]
+        thread = threading.Thread(target=breakCipher, args = (factor, column_length, encrypted, words, results))
+        thread.start()
+        threads.append(thread)
+        results.sort(key=lambda x: x.counter, reverse=True)
+     #   results = results[:25]
+        if (len(results) > 0):
+            print("Best Guess: " + results[0].sentence)
+    for thread in threads:
+        try:
+            thread.join()
+        except:
+            print("woops")
     return results
 
+def simplefyKey(key):
+    result = ""
+    for x in range(int(len(key)/3)):
+        result+=str(int(key[x*3:x*3+3]))
+    return result
 
-def breakCipher(column_count, column_length, encrypted, words):
+
+def cipherThread(key,encrypted, column_length, column_count, password, words, results):
+    #r = readColumn(key=key, encrypted=encrypted, col_length=column_length, col_count=column_count)
+    #r = readRow(key=key, encrypted=encrypted, col_length=column_length, col_count=column_count)
+
+    r = read(encrypted,keyToList(key))
+
+    results.append(
+        WordPower.WordPowerObject(
+            sentence=r,
+            shift=None, password=password, words=words))
+
+def breakCipher(column_count, column_length, encrypted, words, r):
     results = []
-    max = 15
-    min = 2
+    max = 9
     # Skip checking absurdly long tables, as they would make the program crash, due to memory consumption
+
     if max > column_count:
-        perms = permutations([''.join(p) for p in permutations(getKey(column_count))])
+        perms = set([''.join(p) for p in permutations(getKey(column_count))])
+        threads = []
+        coutner = 0
         for p in perms:
-            for key in p:
-                results.append(
-                    WordPower.WordPowerObject(sentence=decrypt(key=key, encrypted=encrypted, col_length=column_length),
-                                              shift=None, password=p, words=words))
-                results.append(
-                    WordPower.WordPowerObject(sentence=decryptRow(key=key, encrypted=encrypted, col_length=column_length, col_count=column_count),
-                                          shift=None, password=p, words=words))
-        return results
+            coutner += 1
+
+            print(str(coutner) +"/" +str(len(perms)) +" Testing Key: " + simplefyKey(p))
+            thread = threading.Thread(target = cipherThread, args=(p,encrypted,column_length,column_count,simplefyKey(p),words,results))
+            thread.start()
+            threads.append(thread)
+            results.sort(key=lambda x: x.counter, reverse=True)
+            results = results[:25]
+        for thread in threads:
+            try:
+                thread.join()
+            except:
+                print("woops")
+        if results is not None:
+            r.extend(results)
+
 
 
 def decipherTable(encrypted, words, filename, alphabet):
@@ -82,21 +120,79 @@ def decipherTable(encrypted, words, filename, alphabet):
         column_length = length / factor
         print(str(factor) +  " / " + str(column_length))
         results.append(WordPower.WordPowerObject(
-            sentence=decrypt(key=getKey(column_length), encrypted=encrypted, col_length=int(column_length)), shift=None,
+            sentence=readColumn(key=getKey(column_length), encrypted=encrypted, col_length=int(column_length)), shift=None,
             password=str(factor) + " x " + str(column_length), words=words))
         results.append(WordPower.WordPowerObject(
-            sentence=decryptRow(key=getKey(column_length), encrypted=encrypted, col_length=int(column_length),col_count=int(factor)), shift=None,
+            sentence=readRow(key=getKey(column_length), encrypted=encrypted, col_length=int(column_length),col_count=int(factor)), shift=None,
             password=str(factor) + " x " + str(column_length), words=words))
     return results
 
-def decryptRow(key, encrypted, col_length, col_count):
-    decriphered = ""
-    for x in range(int(col_count)):
-            for index in key:
-                decriphered += encrypted[int(x) + (int(index) * int(col_length))]
-    print("Guessing: " + decriphered)
-    return decriphered
+def readColumn(key, encrypted, col_length, col_count):
 
+    deciphered = ""
+    for x in range(int(col_length)):
+            for index in keyToList(key):
+                deciphered += encrypted[x + (int(index) * int(col_length))]
+   # print("Guessing: " + deciphered)
+    return deciphered
+
+def read(cipher, key):
+    msg = ""
+
+    # track key indices
+    k_indx = 0
+
+    # track msg indices
+    msg_indx = 0
+    msg_len = float(len(cipher))
+    msg_lst = list(cipher)
+
+    # calculate column of the matrix
+    col = len(key)
+
+    # calculate maximum row of the matrix
+    row = int(math.ceil(msg_len / col))
+
+    # convert key into list and sort
+    # alphabetically so we can access
+    # each character by its alphabetical position.
+    #key_lst = sorted(list(key))
+
+    # create an empty matrix to
+    # store deciphered message
+    dec_cipher = []
+    for _ in range(row):
+        dec_cipher += [[None] * col]
+
+    # Arrange the matrix column wise according
+    # to permutation order by adding into new matrix
+    for _ in range(col):
+        curr_idx = key.index(key[k_indx])
+
+        for j in range(row):
+            dec_cipher[j][curr_idx] = msg_lst[msg_indx]
+            msg_indx += 1
+        k_indx += 1
+
+    # convert decrypted msg matrix into a string
+    try:
+        msg = ''.join(sum(dec_cipher, []))
+    except TypeError:
+        raise TypeError("This program cannot",
+                        "handle repeating words.")
+
+    null_count = msg.count('_')
+
+    if null_count > 0:
+        return msg[: -null_count]
+
+    return msg
+def readRow(key, encrypted, col_length, col_count):
+    deciphered = ""
+    for index in keyToList(key):
+        for x in range(int(col_length)):
+            deciphered+= encrypted[x + (int(index) * int(col_length))]
+    return deciphered
 def decipherDouble(encrypted, words, filename, alphabet):
     results = []
     first = decipher(encrypted, words, filename, alphabet)

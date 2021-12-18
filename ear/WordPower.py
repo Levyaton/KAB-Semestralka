@@ -16,7 +16,7 @@ class WordPowerObject:
     def printToFile(self, file, includePassword, includeShift):
         output = "Sentence: " + self.sentence + " Strength: " + str(self.counter)
         if includePassword:
-            output += " Password: " + self.password
+            output += " Password: " + str(self.password)
         if includeShift:
             output += " Shift: " + str(self.shift)
         output += "\n"
